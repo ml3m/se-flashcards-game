@@ -1,27 +1,56 @@
 import pygame
 import re
 import random
-import textwrap
+import math
 import sys
+from enum import Enum
 
 # Initialize Pygame
 pygame.init()
 
 # Constants
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 700
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (70, 130, 200)
-LIGHT_BLUE = (173, 216, 230)
-GRAY = (128, 128, 128)
-GREEN = (34, 139, 34)
-RED = (220, 20, 60)
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 800
+FPS = 60
 
-# Fonts
-font_large = pygame.font.Font(None, 36)
-font_medium = pygame.font.Font(None, 28)
-font_small = pygame.font.Font(None, 24)
+# Modern Color Palette
+COLORS = {
+    'bg_primary': (15, 17, 26),           # Dark navy background
+    'bg_secondary': (25, 28, 42),         # Slightly lighter navy
+    'card_front': (255, 255, 255),        # Clean white for questions
+    'card_back': (59, 130, 246),          # Modern blue for answers
+    'text_primary': (17, 24, 39),         # Dark text
+    'text_secondary': (107, 114, 128),     # Gray text
+    'text_white': (255, 255, 255),        # White text
+    'accent': (147, 51, 234),             # Purple accent
+    'accent_hover': (126, 34, 206),       # Darker purple
+    'success': (34, 197, 94),             # Green
+    'success_hover': (22, 163, 74),       # Darker green
+    'shadow': (0, 0, 0, 50),              # Semi-transparent shadow
+    'gradient_start': (147, 51, 234),     # Purple
+    'gradient_end': (59, 130, 246),       # Blue
+}
+
+# Animation states
+class FlipState(Enum):
+    IDLE = 0
+    FLIPPING_TO_BACK = 1
+    FLIPPING_TO_FRONT = 2
+
+# Enhanced fonts
+try:
+    font_title = pygame.font.Font(None, 48)
+    font_large = pygame.font.Font(None, 36)
+    font_medium = pygame.font.Font(None, 28)
+    font_small = pygame.font.Font(None, 22)
+    font_tiny = pygame.font.Font(None, 18)
+except:
+    # Fallback to default fonts
+    font_title = pygame.font.Font(None, 48)
+    font_large = pygame.font.Font(None, 36)
+    font_medium = pygame.font.Font(None, 28)
+    font_small = pygame.font.Font(None, 22)
+    font_tiny = pygame.font.Font(None, 18)
 
 class QuestionParser:
     def __init__(self, tex_file):
@@ -49,15 +78,12 @@ class QuestionParser:
             with open(self.tex_file, 'r', encoding='utf-8') as file:
                 content = file.read()
             
-            # Find all questionbox blocks
             question_pattern = r'\\begin\{questionbox\}(.*?)\\end\{questionbox\}'
             questions = re.findall(question_pattern, content, re.DOTALL)
             
-            # Find corresponding answers
             for i, question in enumerate(questions):
                 question_clean = self.clean_latex(question)
                 
-                # Find the answer that follows this question
                 question_pos = content.find(f'\\begin{{questionbox}}{question}\\end{{questionbox}}')
                 next_question_pos = content.find('\\begin{questionbox}', question_pos + 1)
                 
@@ -66,7 +92,6 @@ class QuestionParser:
                 else:
                     answer_section = content[question_pos + len(f'\\begin{{questionbox}}{question}\\end{{questionbox}}'):next_question_pos]
                 
-                # Clean up the answer section
                 answer_section = re.sub(r'\\begin\{questionbox\}.*?\\end\{questionbox\}', '', answer_section, flags=re.DOTALL)
                 answer_section = re.sub(r'\\subsection\{.*?\}', '', answer_section)
                 answer_section = re.sub(r'\\section\{.*?\}', '', answer_section)
@@ -88,22 +113,93 @@ class QuestionParser:
             print(f"Error parsing file: {e}")
             sys.exit(1)
 
-class Flashcard:
+class AnimatedFlashcard:
     def __init__(self, question, answer):
         self.question = question
         self.answer = answer
         self.showing_answer = False
+        self.flip_state = FlipState.IDLE
+        self.flip_progress = 0.0
+        self.flip_speed = 8.0
+        
+    def start_flip(self):
+        """Start the flip animation"""
+        if self.flip_state == FlipState.IDLE:
+            if self.showing_answer:
+                self.flip_state = FlipState.FLIPPING_TO_FRONT
+            else:
+                self.flip_state = FlipState.FLIPPING_TO_BACK
+            self.flip_progress = 0.0
     
-    def flip(self):
-        self.showing_answer = not self.showing_answer
+    def update_animation(self, dt):
+        """Update flip animation"""
+        if self.flip_state != FlipState.IDLE:
+            self.flip_progress += self.flip_speed * dt
+            
+            if self.flip_progress >= 1.0:
+                self.flip_progress = 1.0
+                self.showing_answer = not self.showing_answer
+                self.flip_state = FlipState.IDLE
     
     def get_current_text(self):
         return self.answer if self.showing_answer else self.question
+    
+    def get_scale_x(self):
+        """Get horizontal scale for flip animation"""
+        if self.flip_state == FlipState.IDLE:
+            return 1.0
+        
+        # Create a smooth flip effect
+        progress = self.flip_progress
+        if progress < 0.5:
+            return 1.0 - (progress * 2.0)
+        else:
+            return (progress - 0.5) * 2.0
+    
+    def should_show_back(self):
+        """Determine if we should show the back side during animation"""
+        return self.flip_progress > 0.5
+
+class ModernButton:
+    def __init__(self, x, y, width, height, text, color, hover_color, text_color=None):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.text = text
+        self.color = color
+        self.hover_color = hover_color
+        self.text_color = text_color or COLORS['text_white']
+        self.is_hovered = False
+        self.is_pressed = False
+        
+    def update(self, mouse_pos, mouse_pressed):
+        self.is_hovered = self.rect.collidepoint(mouse_pos)
+        self.is_pressed = self.is_hovered and mouse_pressed
+        
+    def draw(self, screen):
+        current_color = self.hover_color if self.is_hovered else self.color
+        
+        # Draw shadow
+        shadow_rect = self.rect.copy()
+        shadow_rect.y += 4
+        pygame.draw.rect(screen, (0, 0, 0, 30), shadow_rect, border_radius=12)
+        
+        # Draw button
+        if self.is_pressed:
+            button_rect = self.rect.copy()
+            button_rect.y += 2
+        else:
+            button_rect = self.rect
+            
+        pygame.draw.rect(screen, current_color, button_rect, border_radius=12)
+        
+        # Draw text
+        text_surface = font_medium.render(self.text, True, self.text_color)
+        text_rect = text_surface.get_rect(center=button_rect.center)
+        screen.blit(text_surface, text_rect)
 
 class FlashcardApp:
     def __init__(self):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        pygame.display.set_caption("SE Forms Questions - Flashcards")
+        pygame.display.set_caption("SE Forms Questions - Modern Flashcards")
         self.clock = pygame.time.Clock()
         
         # Parse questions
@@ -113,17 +209,45 @@ class FlashcardApp:
             sys.exit(1)
         
         # Create flashcards
-        self.flashcards = [Flashcard(q['question'], q['answer']) for q in self.parser.questions]
+        self.flashcards = [AnimatedFlashcard(q['question'], q['answer']) for q in self.parser.questions]
         random.shuffle(self.flashcards)
         
         self.current_index = 0
         self.current_card = self.flashcards[self.current_index] if self.flashcards else None
         
         # UI elements
-        self.card_rect = pygame.Rect(50, 100, SCREEN_WIDTH - 100, SCREEN_HEIGHT - 200)
-        self.next_button = pygame.Rect(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 80, 100, 40)
-        self.prev_button = pygame.Rect(20, SCREEN_HEIGHT - 80, 100, 40)
-        self.shuffle_button = pygame.Rect(SCREEN_WIDTH // 2 - 50, SCREEN_HEIGHT - 80, 100, 40)
+        self.card_rect = pygame.Rect(150, 150, SCREEN_WIDTH - 300, SCREEN_HEIGHT - 350)
+        
+        # Modern buttons
+        button_y = SCREEN_HEIGHT - 120
+        self.prev_button = ModernButton(50, button_y, 120, 50, "Previous", 
+                                       COLORS['accent'], COLORS['accent_hover'])
+        self.next_button = ModernButton(SCREEN_WIDTH - 170, button_y, 120, 50, "Next", 
+                                       COLORS['accent'], COLORS['accent_hover'])
+        self.shuffle_button = ModernButton(SCREEN_WIDTH // 2 - 60, button_y, 120, 50, "Shuffle", 
+                                         COLORS['success'], COLORS['success_hover'])
+        
+        self.mouse_pos = (0, 0)
+        self.mouse_pressed = False
+        
+    def create_gradient_surface(self, width, height, color1, color2, vertical=True):
+        """Create a gradient surface"""
+        gradient = pygame.Surface((width, height))
+        if vertical:
+            for y in range(height):
+                ratio = y / height
+                r = int(color1[0] * (1 - ratio) + color2[0] * ratio)
+                g = int(color1[1] * (1 - ratio) + color2[1] * ratio)
+                b = int(color1[2] * (1 - ratio) + color2[2] * ratio)
+                pygame.draw.line(gradient, (r, g, b), (0, y), (width, y))
+        else:
+            for x in range(width):
+                ratio = x / width
+                r = int(color1[0] * (1 - ratio) + color2[0] * ratio)
+                g = int(color1[1] * (1 - ratio) + color2[1] * ratio)
+                b = int(color1[2] * (1 - ratio) + color2[2] * ratio)
+                pygame.draw.line(gradient, (r, g, b), (x, 0), (x, height))
+        return gradient
     
     def wrap_text(self, text, font, max_width):
         """Wrap text to fit within the given width"""
@@ -146,96 +270,177 @@ class FlashcardApp:
         return lines
     
     def draw_card(self):
-        """Draw the current flashcard"""
+        """Draw the animated flashcard"""
         if not self.current_card:
             return
         
-        # Card background
-        pygame.draw.rect(self.screen, WHITE, self.card_rect)
-        pygame.draw.rect(self.screen, BLUE, self.card_rect, 3)
+        scale_x = self.current_card.get_scale_x()
         
-        # Card content
-        text = self.current_card.get_current_text()
-        font = font_medium if len(text) < 200 else font_small
+        # Calculate card dimensions with scaling
+        card_width = int(self.card_rect.width * scale_x)
+        card_height = self.card_rect.height
+        card_x = self.card_rect.centerx - card_width // 2
+        card_y = self.card_rect.y
         
-        lines = self.wrap_text(text, font, self.card_rect.width - 40)
+        if card_width <= 0:
+            return
         
-        # Calculate total height of text
-        line_height = font.get_height() + 5
-        total_height = len(lines) * line_height
+        scaled_rect = pygame.Rect(card_x, card_y, card_width, card_height)
         
-        # Start position (centered vertically)
-        start_y = self.card_rect.y + (self.card_rect.height - total_height) // 2
-        
-        for i, line in enumerate(lines):
-            if start_y + i * line_height > self.card_rect.bottom - 40:
-                break  # Don't draw outside the card
-            
-            text_surface = font.render(line, True, BLACK)
-            text_rect = text_surface.get_rect()
-            text_rect.centerx = self.card_rect.centerx
-            text_rect.y = start_y + i * line_height
-            self.screen.blit(text_surface, text_rect)
-        
-        # Draw card type indicator
-        card_type = "ANSWER" if self.current_card.showing_answer else "QUESTION"
-        color = GREEN if self.current_card.showing_answer else BLUE
-        type_surface = font_small.render(card_type, True, color)
-        type_rect = type_surface.get_rect()
-        type_rect.topright = (self.card_rect.right - 10, self.card_rect.top + 10)
-        self.screen.blit(type_surface, type_rect)
-        
-        # Draw click to flip instruction
-        if not self.current_card.showing_answer:
-            instruction = "Click card to see answer"
+        # Determine card colors based on state
+        if self.current_card.flip_state == FlipState.IDLE:
+            if self.current_card.showing_answer:
+                card_color = COLORS['card_back']
+                text_color = COLORS['text_white']
+                badge_text = "ANSWER"
+                badge_color = COLORS['success']
+            else:
+                card_color = COLORS['card_front']
+                text_color = COLORS['text_primary']
+                badge_text = "QUESTION"
+                badge_color = COLORS['accent']
         else:
-            instruction = "Click card to see question"
+            # During animation, show appropriate side
+            if self.current_card.should_show_back():
+                card_color = COLORS['card_back']
+                text_color = COLORS['text_white']
+                badge_text = "ANSWER"
+                badge_color = COLORS['success']
+            else:
+                card_color = COLORS['card_front']
+                text_color = COLORS['text_primary']
+                badge_text = "QUESTION"
+                badge_color = COLORS['accent']
         
-        instruction_surface = font_small.render(instruction, True, GRAY)
-        instruction_rect = instruction_surface.get_rect()
-        instruction_rect.centerx = self.card_rect.centerx
-        instruction_rect.bottom = self.card_rect.bottom - 10
-        self.screen.blit(instruction_surface, instruction_rect)
+        # Draw card shadow
+        shadow_rect = scaled_rect.copy()
+        shadow_rect.y += 8
+        shadow_rect.x += 4
+        shadow_surface = pygame.Surface((shadow_rect.width, shadow_rect.height), pygame.SRCALPHA)
+        pygame.draw.rect(shadow_surface, (0, 0, 0, 30), shadow_surface.get_rect(), border_radius=24)
+        self.screen.blit(shadow_surface, shadow_rect)
+        
+        # Draw card background
+        pygame.draw.rect(self.screen, card_color, scaled_rect, border_radius=24)
+        
+        # Draw subtle border
+        border_color = COLORS['text_secondary'] if not self.current_card.showing_answer else (255, 255, 255, 50)
+        pygame.draw.rect(self.screen, border_color, scaled_rect, width=2, border_radius=24)
+        
+        # Draw content only if card is visible enough
+        if scale_x > 0.1:
+            # Draw badge
+            badge_rect = pygame.Rect(scaled_rect.right - 100, scaled_rect.top + 20, 80, 30)
+            pygame.draw.rect(self.screen, badge_color, badge_rect, border_radius=15)
+            badge_surface = font_tiny.render(badge_text, True, COLORS['text_white'])
+            badge_text_rect = badge_surface.get_rect(center=badge_rect.center)
+            self.screen.blit(badge_surface, badge_text_rect)
+            
+            # Draw card content
+            text = self.current_card.get_current_text()
+            font = font_medium if len(text) < 200 else font_small
+            
+            content_width = scaled_rect.width - 60
+            lines = self.wrap_text(text, font, content_width)
+            
+            line_height = font.get_height() + 6
+            total_height = len(lines) * line_height
+            start_y = scaled_rect.centery - total_height // 2
+            
+            for i, line in enumerate(lines):
+                if start_y + i * line_height > scaled_rect.bottom - 60:
+                    break
+                
+                text_surface = font.render(line, True, text_color)
+                text_rect = text_surface.get_rect()
+                text_rect.centerx = scaled_rect.centerx
+                text_rect.y = start_y + i * line_height
+                
+                # Scale text horizontally to match card scaling
+                if scale_x < 1.0:
+                    scaled_width = int(text_surface.get_width() * scale_x)
+                    if scaled_width > 0:
+                        scaled_text = pygame.transform.scale(text_surface, (scaled_width, text_surface.get_height()))
+                        scaled_text_rect = scaled_text.get_rect()
+                        scaled_text_rect.centerx = scaled_rect.centerx
+                        scaled_text_rect.y = text_rect.y
+                        self.screen.blit(scaled_text, scaled_text_rect)
+                else:
+                    self.screen.blit(text_surface, text_rect)
+            
+            # Draw instruction text
+            if self.current_card.flip_state == FlipState.IDLE:
+                if not self.current_card.showing_answer:
+                    instruction = "Click to reveal answer"
+                else:
+                    instruction = "Click to show question"
+                
+                instruction_surface = font_tiny.render(instruction, True, 
+                                                     COLORS['text_secondary'] if not self.current_card.showing_answer else (255, 255, 255, 150))
+                instruction_rect = instruction_surface.get_rect()
+                instruction_rect.centerx = scaled_rect.centerx
+                instruction_rect.bottom = scaled_rect.bottom - 20
+                self.screen.blit(instruction_surface, instruction_rect)
     
-    def draw_buttons(self):
-        """Draw navigation buttons"""
-        # Previous button
-        prev_color = GRAY if self.current_index == 0 else BLUE
-        pygame.draw.rect(self.screen, prev_color, self.prev_button)
-        prev_text = font_small.render("Previous", True, WHITE)
-        prev_text_rect = prev_text.get_rect(center=self.prev_button.center)
-        self.screen.blit(prev_text, prev_text_rect)
+    def draw_background(self):
+        """Draw the modern gradient background"""
+        gradient = self.create_gradient_surface(SCREEN_WIDTH, SCREEN_HEIGHT, 
+                                              COLORS['bg_primary'], COLORS['bg_secondary'])
+        self.screen.blit(gradient, (0, 0))
         
-        # Next button
-        next_color = GRAY if self.current_index >= len(self.flashcards) - 1 else BLUE
-        pygame.draw.rect(self.screen, next_color, self.next_button)
-        next_text = font_small.render("Next", True, WHITE)
-        next_text_rect = next_text.get_rect(center=self.next_button.center)
-        self.screen.blit(next_text, next_text_rect)
-        
-        # Shuffle button
-        pygame.draw.rect(self.screen, GREEN, self.shuffle_button)
-        shuffle_text = font_small.render("Shuffle", True, WHITE)
-        shuffle_text_rect = shuffle_text.get_rect(center=self.shuffle_button.center)
-        self.screen.blit(shuffle_text, shuffle_text_rect)
+        # Add some subtle pattern
+        for i in range(0, SCREEN_WIDTH, 100):
+            for j in range(0, SCREEN_HEIGHT, 100):
+                alpha = 20
+                color = (*COLORS['accent'], alpha)
+                circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
+                pygame.draw.circle(circle_surface, color, (10, 10), 8)
+                self.screen.blit(circle_surface, (i, j))
     
-    def draw_info(self):
-        """Draw app info and current card number"""
-        title = "SE Forms Questions - Flashcards"
-        title_surface = font_large.render(title, True, BLUE)
+    def draw_header(self):
+        """Draw the modern header"""
+        # Title
+        title = "SE Forms Questions"
+        title_surface = font_title.render(title, True, COLORS['text_white'])
         title_rect = title_surface.get_rect()
         title_rect.centerx = SCREEN_WIDTH // 2
-        title_rect.y = 20
+        title_rect.y = 30
         self.screen.blit(title_surface, title_rect)
         
-        # Card counter
+        # Subtitle
+        subtitle = "Interactive Study Cards"
+        subtitle_surface = font_medium.render(subtitle, True, COLORS['text_secondary'])
+        subtitle_rect = subtitle_surface.get_rect()
+        subtitle_rect.centerx = SCREEN_WIDTH // 2
+        subtitle_rect.y = 75
+        self.screen.blit(subtitle_surface, subtitle_rect)
+        
+        # Progress indicator
         if self.flashcards:
-            counter = f"Card {self.current_index + 1} of {len(self.flashcards)}"
-            counter_surface = font_medium.render(counter, True, BLACK)
-            counter_rect = counter_surface.get_rect()
-            counter_rect.centerx = SCREEN_WIDTH // 2
-            counter_rect.y = 60
-            self.screen.blit(counter_surface, counter_rect)
+            progress_text = f"{self.current_index + 1} / {len(self.flashcards)}"
+            progress_surface = font_large.render(progress_text, True, COLORS['accent'])
+            progress_rect = progress_surface.get_rect()
+            progress_rect.centerx = SCREEN_WIDTH // 2
+            progress_rect.y = 105
+            self.screen.blit(progress_surface, progress_rect)
+            
+            # Progress bar
+            bar_width = 300
+            bar_height = 6
+            bar_x = SCREEN_WIDTH // 2 - bar_width // 2
+            bar_y = 140
+            
+            # Background bar
+            pygame.draw.rect(self.screen, COLORS['bg_secondary'], 
+                           (bar_x, bar_y, bar_width, bar_height), border_radius=3)
+            
+            # Progress bar
+            progress = (self.current_index + 1) / len(self.flashcards)
+            progress_width = int(bar_width * progress)
+            if progress_width > 0:
+                gradient_bar = self.create_gradient_surface(progress_width, bar_height, 
+                                                          COLORS['gradient_start'], COLORS['gradient_end'], False)
+                self.screen.blit(gradient_bar, (bar_x, bar_y))
     
     def next_card(self):
         """Go to next card"""
@@ -243,6 +448,7 @@ class FlashcardApp:
             self.current_index += 1
             self.current_card = self.flashcards[self.current_index]
             self.current_card.showing_answer = False
+            self.current_card.flip_state = FlipState.IDLE
     
     def prev_card(self):
         """Go to previous card"""
@@ -250,6 +456,7 @@ class FlashcardApp:
             self.current_index -= 1
             self.current_card = self.flashcards[self.current_index]
             self.current_card.showing_answer = False
+            self.current_card.flip_state = FlipState.IDLE
     
     def shuffle_cards(self):
         """Shuffle the cards"""
@@ -257,29 +464,33 @@ class FlashcardApp:
         self.current_index = 0
         self.current_card = self.flashcards[self.current_index]
         self.current_card.showing_answer = False
+        self.current_card.flip_state = FlipState.IDLE
     
     def handle_click(self, pos):
         """Handle mouse clicks"""
-        if self.card_rect.collidepoint(pos):
-            # Click on card - flip it
-            if self.current_card:
-                self.current_card.flip()
-        elif self.next_button.collidepoint(pos):
-            # Next button
+        if self.card_rect.collidepoint(pos) and self.current_card:
+            if self.current_card.flip_state == FlipState.IDLE:
+                self.current_card.start_flip()
+        elif self.next_button.rect.collidepoint(pos):
             if self.current_index < len(self.flashcards) - 1:
                 self.next_card()
-        elif self.prev_button.collidepoint(pos):
-            # Previous button
+        elif self.prev_button.rect.collidepoint(pos):
             if self.current_index > 0:
                 self.prev_card()
-        elif self.shuffle_button.collidepoint(pos):
-            # Shuffle button
+        elif self.shuffle_button.rect.collidepoint(pos):
             self.shuffle_cards()
     
     def run(self):
         """Main game loop"""
         running = True
+        last_time = pygame.time.get_ticks()
+        
         while running:
+            current_time = pygame.time.get_ticks()
+            dt = (current_time - last_time) / 1000.0
+            last_time = current_time
+            
+            # Handle events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -288,27 +499,40 @@ class FlashcardApp:
                         self.handle_click(event.pos)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
-                        # Space bar flips card
-                        if self.current_card:
-                            self.current_card.flip()
+                        if self.current_card and self.current_card.flip_state == FlipState.IDLE:
+                            self.current_card.start_flip()
                     elif event.key == pygame.K_RIGHT or event.key == pygame.K_n:
-                        # Right arrow or 'n' for next
                         self.next_card()
                     elif event.key == pygame.K_LEFT or event.key == pygame.K_p:
-                        # Left arrow or 'p' for previous
                         self.prev_card()
                     elif event.key == pygame.K_s:
-                        # 's' for shuffle
                         self.shuffle_cards()
             
+            # Update
+            self.mouse_pos = pygame.mouse.get_pos()
+            self.mouse_pressed = pygame.mouse.get_pressed()[0]
+            
+            # Update buttons
+            self.prev_button.update(self.mouse_pos, self.mouse_pressed)
+            self.next_button.update(self.mouse_pos, self.mouse_pressed)
+            self.shuffle_button.update(self.mouse_pos, self.mouse_pressed)
+            
+            # Update current card animation
+            if self.current_card:
+                self.current_card.update_animation(dt)
+            
             # Draw everything
-            self.screen.fill(LIGHT_BLUE)
-            self.draw_info()
+            self.draw_background()
+            self.draw_header()
             self.draw_card()
-            self.draw_buttons()
+            
+            # Draw buttons
+            self.prev_button.draw(self.screen)
+            self.next_button.draw(self.screen)
+            self.shuffle_button.draw(self.screen)
             
             pygame.display.flip()
-            self.clock.tick(60)
+            self.clock.tick(FPS)
         
         pygame.quit()
 
