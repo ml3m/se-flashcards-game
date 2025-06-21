@@ -1,5 +1,5 @@
 import pygame
-import re
+import json
 import random
 import math
 import sys
@@ -52,65 +52,27 @@ except:
     font_small = pygame.font.Font(None, 22)
     font_tiny = pygame.font.Font(None, 18)
 
-class QuestionParser:
-    def __init__(self, tex_file):
-        self.tex_file = tex_file
+class QuestionLoader:
+    def __init__(self, json_file):
+        self.json_file = json_file
         self.questions = []
-        self.parse_questions()
+        self.load_questions()
     
-    def clean_latex(self, text):
-        """Remove LaTeX commands and clean up text"""
-        # Remove common LaTeX commands
-        text = re.sub(r'\\textbf\{([^}]*)\}', r'\1', text)
-        text = re.sub(r'\\begin\{itemize\}.*?\\end\{itemize\}', '', text, flags=re.DOTALL)
-        text = re.sub(r'\\begin\{enumerate\}.*?\\end\{enumerate\}', '', text, flags=re.DOTALL)
-        text = re.sub(r'\\item\s*', '• ', text)
-        text = re.sub(r'\\\\', '\n', text)
-        text = re.sub(r'\\[a-zA-Z]+\{[^}]*\}', '', text)
-        text = re.sub(r'\\[a-zA-Z]+', '', text)
-        text = re.sub(r'\{([^}]*)\}', r'\1', text)
-        text = re.sub(r'\s+', ' ', text)
-        return text.strip()
-    
-    def parse_questions(self):
-        """Parse questions from the LaTeX file"""
+    def load_questions(self):
+        """Load questions from JSON file"""
         try:
-            with open(self.tex_file, 'r', encoding='utf-8') as file:
-                content = file.read()
-            
-            question_pattern = r'\\begin\{questionbox\}(.*?)\\end\{questionbox\}'
-            questions = re.findall(question_pattern, content, re.DOTALL)
-            
-            for i, question in enumerate(questions):
-                question_clean = self.clean_latex(question)
+            with open(self.json_file, 'r', encoding='utf-8') as file:
+                data = json.load(file)
+                self.questions = data.get('questions', [])
                 
-                question_pos = content.find(f'\\begin{{questionbox}}{question}\\end{{questionbox}}')
-                next_question_pos = content.find('\\begin{questionbox}', question_pos + 1)
-                
-                if next_question_pos == -1:
-                    answer_section = content[question_pos + len(f'\\begin{{questionbox}}{question}\\end{{questionbox}}'):]
-                else:
-                    answer_section = content[question_pos + len(f'\\begin{{questionbox}}{question}\\end{{questionbox}}'):next_question_pos]
-                
-                answer_section = re.sub(r'\\begin\{questionbox\}.*?\\end\{questionbox\}', '', answer_section, flags=re.DOTALL)
-                answer_section = re.sub(r'\\subsection\{.*?\}', '', answer_section)
-                answer_section = re.sub(r'\\section\{.*?\}', '', answer_section)
-                answer_section = re.sub(r'\\newpage', '', answer_section)
-                answer_section = re.sub(r'\(Source:.*?\)', '', answer_section)
-                
-                answer_clean = self.clean_latex(answer_section)
-                
-                if question_clean and answer_clean:
-                    self.questions.append({
-                        'question': question_clean,
-                        'answer': answer_clean
-                    })
-        
         except FileNotFoundError:
-            print(f"Error: Could not find file {self.tex_file}")
+            print(f"Error: Could not find file {self.json_file}")
+            sys.exit(1)
+        except json.JSONDecodeError as e:
+            print(f"Error parsing JSON file: {e}")
             sys.exit(1)
         except Exception as e:
-            print(f"Error parsing file: {e}")
+            print(f"Error loading questions: {e}")
             sys.exit(1)
 
 class AnimatedFlashcard:
@@ -202,14 +164,14 @@ class FlashcardApp:
         pygame.display.set_caption("SE Forms Questions - Modern Flashcards")
         self.clock = pygame.time.Clock()
         
-        # Parse questions
-        self.parser = QuestionParser('SE-FORMS-QUESTIONS.tex')
-        if not self.parser.questions:
-            print("No questions found in the LaTeX file!")
+        # Load questions
+        self.loader = QuestionLoader('questions.json')
+        if not self.loader.questions:
+            print("No questions found in the JSON file!")
             sys.exit(1)
         
         # Create flashcards
-        self.flashcards = [AnimatedFlashcard(q['question'], q['answer']) for q in self.parser.questions]
+        self.flashcards = [AnimatedFlashcard(q['question'], q['answer']) for q in self.loader.questions]
         random.shuffle(self.flashcards)
         
         self.current_index = 0
@@ -249,25 +211,89 @@ class FlashcardApp:
                 pygame.draw.line(gradient, (r, g, b), (x, 0), (x, height))
         return gradient
     
-    def wrap_text(self, text, font, max_width):
-        """Wrap text to fit within the given width"""
-        words = text.split(' ')
-        lines = []
-        current_line = ""
+    def format_text(self, text):
+        """Format text by processing markdown-style elements"""
+        # Split by line breaks first
+        paragraphs = text.split('\n')
+        formatted_lines = []
         
-        for word in words:
-            test_line = current_line + word + " "
-            if font.size(test_line)[0] <= max_width:
-                current_line = test_line
+        for paragraph in paragraphs:
+            if not paragraph.strip():
+                formatted_lines.append(("empty", ""))  # Empty line
+                continue
+                
+            # Handle bullet points
+            if paragraph.strip().startswith('•'):
+                formatted_lines.append(('bullet', paragraph.strip()))
+            # Handle bold text
+            elif '**' in paragraph:
+                formatted_lines.append(('bold', paragraph.strip()))
+            # Handle quotes
+            elif paragraph.strip().startswith('"') and paragraph.strip().endswith('"'):
+                formatted_lines.append(('quote', paragraph.strip()))
             else:
+                formatted_lines.append(('normal', paragraph.strip()))
+        
+        return formatted_lines
+    
+    def wrap_formatted_text(self, formatted_lines, base_font, max_width):
+        """Wrap formatted text, handling different styles"""
+        wrapped_lines = []
+        
+        for line_type, text in formatted_lines:
+            if not text:
+                wrapped_lines.append(('empty', ''))
+                continue
+                
+            # Choose font based on type
+            if line_type == 'bold':
+                # Remove markdown bold syntax
+                text = text.replace('**', '')
+                font = font_medium
+            elif line_type == 'bullet':
+                font = base_font
+            elif line_type == 'quote':
+                font = base_font
+            else:
+                font = base_font
+            
+            # Wrap the text
+            if line_type == 'bullet':
+                # Handle bullet points specially - preserve bullet and indent
+                bullet_text = text[1:].strip()  # Remove bullet
+                words = bullet_text.split(' ')
+                current_line = "• "
+                
+                for word in words:
+                    test_line = current_line + word + " "
+                    if font.size(test_line)[0] <= max_width:
+                        current_line = test_line
+                    else:
+                        if current_line.strip() != "•":
+                            wrapped_lines.append((line_type, current_line.strip()))
+                        current_line = "  " + word + " "  # Indent continuation
+                
+                if current_line.strip():
+                    wrapped_lines.append((line_type, current_line.strip()))
+                    
+            else:
+                # Normal wrapping
+                words = text.split(' ')
+                current_line = ""
+                
+                for word in words:
+                    test_line = current_line + word + " "
+                    if font.size(test_line)[0] <= max_width:
+                        current_line = test_line
+                    else:
+                        if current_line:
+                            wrapped_lines.append((line_type, current_line.strip()))
+                        current_line = word + " "
+                
                 if current_line:
-                    lines.append(current_line.strip())
-                current_line = word + " "
+                    wrapped_lines.append((line_type, current_line.strip()))
         
-        if current_line:
-            lines.append(current_line.strip())
-        
-        return lines
+        return wrapped_lines
     
     def draw_card(self):
         """Draw the animated flashcard"""
@@ -336,25 +362,72 @@ class FlashcardApp:
             badge_text_rect = badge_surface.get_rect(center=badge_rect.center)
             self.screen.blit(badge_surface, badge_text_rect)
             
-            # Draw card content
+            # Draw card content with formatting
             text = self.current_card.get_current_text()
-            font = font_medium if len(text) < 200 else font_small
+            
+            # Choose base font size based on text length
+            if len(text) < 150:
+                base_font = font_medium
+            elif len(text) < 400:
+                base_font = font_small
+            else:
+                base_font = font_tiny
             
             content_width = scaled_rect.width - 60
-            lines = self.wrap_text(text, font, content_width)
             
-            line_height = font.get_height() + 6
-            total_height = len(lines) * line_height
-            start_y = scaled_rect.centery - total_height // 2
+            # Format and wrap text
+            formatted_lines = self.format_text(text)
+            wrapped_lines = self.wrap_formatted_text(formatted_lines, base_font, content_width)
             
-            for i, line in enumerate(lines):
-                if start_y + i * line_height > scaled_rect.bottom - 60:
-                    break
+            # Calculate spacing
+            base_line_height = base_font.get_height() + 4
+            
+            # Calculate available space for text
+            available_height = scaled_rect.height - 120
+            max_lines = int(available_height / base_line_height)
+            
+            # Truncate if necessary
+            display_lines = wrapped_lines[:max_lines] if len(wrapped_lines) > max_lines else wrapped_lines
+            truncated = len(wrapped_lines) > max_lines
+            
+            # Calculate total height for centering
+            total_height = len(display_lines) * base_line_height
+            start_y = scaled_rect.y + 60 + (available_height - total_height) // 2
+            
+            # Render each formatted line
+            for i, (line_type, line_text) in enumerate(display_lines):
+                if line_type == 'empty':
+                    continue
+                    
+                # Choose font and color based on line type
+                if line_type == 'bold':
+                    current_font = font_medium
+                    current_color = text_color
+                elif line_type == 'quote':
+                    current_font = base_font
+                    # Make quotes slightly lighter
+                    if self.current_card.showing_answer:
+                        current_color = (200, 200, 200)
+                    else:
+                        current_color = (80, 80, 80)
+                elif line_type == 'bullet':
+                    current_font = base_font
+                    current_color = text_color
+                else:
+                    current_font = base_font
+                    current_color = text_color
                 
-                text_surface = font.render(line, True, text_color)
+                # Render the text
+                text_surface = current_font.render(line_text, True, current_color)
                 text_rect = text_surface.get_rect()
-                text_rect.centerx = scaled_rect.centerx
-                text_rect.y = start_y + i * line_height
+                
+                # Center normal text, left-align bullets
+                if line_type == 'bullet':
+                    text_rect.left = scaled_rect.left + 40
+                else:
+                    text_rect.centerx = scaled_rect.centerx
+                    
+                text_rect.y = start_y + i * base_line_height
                 
                 # Scale text horizontally to match card scaling
                 if scale_x < 1.0:
@@ -362,11 +435,22 @@ class FlashcardApp:
                     if scaled_width > 0:
                         scaled_text = pygame.transform.scale(text_surface, (scaled_width, text_surface.get_height()))
                         scaled_text_rect = scaled_text.get_rect()
-                        scaled_text_rect.centerx = scaled_rect.centerx
+                        if line_type == 'bullet':
+                            scaled_text_rect.left = text_rect.left
+                        else:
+                            scaled_text_rect.centerx = scaled_rect.centerx
                         scaled_text_rect.y = text_rect.y
                         self.screen.blit(scaled_text, scaled_text_rect)
                 else:
                     self.screen.blit(text_surface, text_rect)
+            
+            # Show "..." if text was truncated
+            if truncated and scale_x > 0.1:
+                dots_surface = base_font.render("...", True, text_color)
+                dots_rect = dots_surface.get_rect()
+                dots_rect.centerx = scaled_rect.centerx
+                dots_rect.y = start_y + len(display_lines) * base_line_height
+                self.screen.blit(dots_surface, dots_rect)
             
             # Draw instruction text
             if self.current_card.flip_state == FlipState.IDLE:

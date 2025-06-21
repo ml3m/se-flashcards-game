@@ -1,0 +1,79 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "How can an extra-functional requirement be made verifiable? Give an example of a general extra-functional requirement and an example of a verifiable version for it.",
+      "answer": "An extra-functional requirement can be made verifiable by expressing it using some measure that can be objectively tested.\n\n**General extra-functional requirement (goal):**\n\"The system should be easy to use by experienced medical staff.\"\n\n**Verifiable version:**\n\"Experienced medical staff shall be able to use all the system functions after a total of two hours training. After this training, the average number of errors made by users shall not exceed two per day.\""
+    },
+    {
+      "id": 2,
+      "question": "What is the meaning of the complete and consistent set of functional requirements?",
+      "answer": "• **Complete:** The set should include descriptions of all facilities required.\n\n• **Consistent:** There should be no conflicts or contradictions in the descriptions of the system facilities.\n\n**Note:** In practice, it is very difficult to produce a complete and consistent requirements document."
+    },
+    {
+      "id": 3,
+      "question": "Why is requirements prioritization necessary?",
+      "answer": "Requirements prioritization is necessary to determine which requirements are the most important, considering:\n\n• Stakeholders' current and future needs\n• Development constraints (time, resources, technical capability)\n• Business objectives (market competition, immediate sales, critical problems)\n\nHigher priority requirements are implemented and delivered first."
+    },
+    {
+      "id": 4,
+      "question": "What information results from the requirements representation with use cases and their details?",
+      "answer": "Use case representation provides:\n\n• A clear picture of how users interact with the system\n• A definition of system functions (functional requirements)\n• Preconditions and postconditions\n• Main and alternative event flows (scenarios)\n• The context of interactions with external actors\n\nThis representation helps drive system development and testing."
+    },
+    {
+      "id": 5,
+      "question": "Why is requirements validation needed and which are the main techniques to realize it?",
+      "answer": "To ensure the requirements define the system that the customer really wants. Requirements errors are expensive to fix later—up to 100 times more than fixing implementation errors.\n\n**Main techniques:**\n\n• **Requirements reviews:** Manual analysis, involving both client and contractor\n• **Prototyping:** Executable model of the system to check requirements\n• **Test-case generation:** To check the testability of requirements\n\nThese techniques can be used together or separately."
+    },
+    {
+      "id": 6,
+      "question": "Describe the differences between project-based software engineering and product software engineering.",
+      "answer": "**Project-based software engineering:**\n\n• Starts from requirements defined and owned by an external client\n• Software is implemented by a contractor to support the client's business processes\n• Requirements may change based on business needs; software must adapt\n• Focus is on long-lifetime, custom systems often supported for 10+ years\n\n**Product software engineering:**\n\n• Starts from a business opportunity identified by the developer or company\n• The same company designs, implements, and decides on features, schedule, and changes\n• Goal is to capture a broad market with useful features for many users\n• Focus is on rapid delivery to gain market advantage"
+    },
+    {
+      "id": 7,
+      "question": "Consider two approaches of offering a software product: 1) as a software service (running on the developer's servers) 2) as a software package entirely running on the user's computers. Identify one advantage and one disadvantage of the first approach compared with the second one, first from developer point of view and then from client point of view.",
+      "answer": "**Approach 1:** Software as a service (runs on developer's servers)\n**Approach 2:** Software as a stand-alone package (runs on user's computer)\n\n**From Developer's Point of View:**\n• **Advantage:** Easier to update and maintain the software centrally\n• **Disadvantage:** Must handle server infrastructure, performance, and security\n\n**From Client's Point of View:**\n• **Advantage:** No installation required; can access the software anywhere with internet\n• **Disadvantage:** Depends on internet access and external servers; possible privacy concerns"
+    },
+    {
+      "id": 8,
+      "question": "What is a prototype and why is it important to develop product prototypes?",
+      "answer": "A prototype is an initial version of a software system used to:\n\n• Demonstrate concepts\n• Try out design options\n\n**It is important because:**\n\n• It helps convince the team and funders that the product has market potential\n• It allows users to interact with a basic system and provide feedback\n• It helps identify fundamental software components and test technologies\n• It supports requirements elicitation and validation, and informs UI design\n• It reduces the risk of building the wrong product by validating ideas early"
+    },
+    {
+      "id": 9,
+      "question": "Why is it important to create Personas?",
+      "answer": "Creating Personas is important because they help:\n\n• Developers empathize with potential users\n• Teams \"step into the user's shoes\" to better understand their needs and behaviors\n• Guide the design by avoiding assumptions based on the developer's own knowledge\n• Focus on features that are relevant and usable for real users\n• Ensure the product is not overly complex or misaligned with user expectations"
+    },
+    {
+      "id": 10,
+      "question": "Write acceptance criteria for the following User Story: \"As a trainer, I need to create a new course or event, so site visitors can see it.\"",
+      "answer": "**Given that** the trainer wants to create a new course or event, **when** he accesses the course creation form, **then** he is presented with fields for:\n\n• Course/event name and HTML description\n• Multiple trainer selection from a predefined list\n• Start and end dates\n• Venue name (HTML) and physical address\n• Contact name, phone, and email\n• Link to more information and registration link\n\n**Given that** the course is a certification, **when** the trainer selects the certification option, **then** the class name must be chosen from a dropdown list.\n\n**Given that** the course is not a certification, **when** the trainer indicates it's not a certification, **then** the class name should be entered as free text."
+    },
+    {
+      "id": 11,
+      "question": "Which are the sources of information for deriving the product features?",
+      "answer": "Sources of information for deriving product features include:\n\n• Product vision\n• Scenarios\n• User stories\n• Highlighted user actions in narratives\n• Team discussions to suggest new or generalized features"
+    },
+    {
+      "id": 12,
+      "question": "What are the main elements identified and modeled during an object-oriented design process?",
+      "answer": "The main elements identified and modeled include:\n\n• Objects and object classes\n• Object attributes\n• Object operations (services)\n• Relationships between objects (e.g., associations, aggregations, generalizations)\n\n**Design models such as:**\n• Class diagrams (static)\n• Sequence diagrams (dynamic)\n• State machine models\n• Use-case models"
+    },
+    {
+      "id": 13,
+      "question": "Why is GUI prototyping important?",
+      "answer": "GUI prototyping is important because:\n\n• It allows users to gain direct experience with the interface early in development\n• Without this experience, it is difficult to assess usability\n• Helps refine design through user feedback\n\n**Supports a two-stage process:**\n• Early prototypes (e.g., sketches, whiteboard)\n• Later refined into more sophisticated automated prototypes"
+    },
+    {
+      "id": 14,
+      "question": "What is the importance of MDE (Model Driven Engineering)?",
+      "answer": "MDE is important because:\n\n• It promotes development at higher levels of abstraction, focusing on models instead of code\n• Enables automatic code generation from models, reducing manual coding effort\n• Makes it easier to adapt systems to new platforms by re-generating code from models\n• Helps bridge the gap between analysis, design, and implementation"
+    },
+    {
+      "id": 15,
+      "question": "Which are the main architectural perspectives and what shows each of them?",
+      "answer": "**Static perspective:** The implementation units (modules), their interfaces, and interrelations.\n\n**Dynamic perspective:** The runtime structure: execution units (components) and connectors.\n\n**Deployment perspective:** How implementation units are deployed on infrastructure (hardware, platforms)."
+    }
+  ]
+} 
