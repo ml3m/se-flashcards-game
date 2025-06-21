@@ -153,8 +153,19 @@ class ModernButton:
             
         pygame.draw.rect(screen, current_color, button_rect, border_radius=12)
         
-        # Draw text
+        # Draw text with proper scaling to fit
         text_surface = font_medium.render(self.text, True, self.text_color)
+        text_rect = text_surface.get_rect()
+        
+        # Scale text if it's too wide for the button
+        max_width = button_rect.width - 10  # 5px padding on each side
+        if text_rect.width > max_width:
+            scale_factor = max_width / text_rect.width
+            new_width = int(text_rect.width * scale_factor)
+            new_height = int(text_rect.height * scale_factor)
+            if new_width > 0 and new_height > 0:
+                text_surface = pygame.transform.scale(text_surface, (new_width, new_height))
+        
         text_rect = text_surface.get_rect(center=button_rect.center)
         screen.blit(text_surface, text_rect)
 
@@ -177,17 +188,38 @@ class FlashcardApp:
         self.current_index = 0
         self.current_card = self.flashcards[self.current_index] if self.flashcards else None
         
+        # Scoring system
+        self.correct_answers = 0
+        self.incorrect_answers = 0
+        self.incorrect_cards = []  # Store cards answered incorrectly
+        self.answered_cards = set()  # Track which cards have been answered
+        self.review_mode = False  # Whether we're reviewing incorrect answers
+        self.original_flashcards = self.flashcards.copy()  # Keep original set
+        
         # UI elements
-        self.card_rect = pygame.Rect(150, 150, SCREEN_WIDTH - 300, SCREEN_HEIGHT - 350)
+        self.card_rect = pygame.Rect(150, 150, SCREEN_WIDTH - 300, SCREEN_HEIGHT - 400)
         
         # Modern buttons
         button_y = SCREEN_HEIGHT - 120
-        self.prev_button = ModernButton(50, button_y, 120, 50, "Previous", 
+        score_button_y = SCREEN_HEIGHT - 70
+        
+        # Navigation buttons
+        self.prev_button = ModernButton(50, button_y, 100, 40, "Previous", 
                                        COLORS['accent'], COLORS['accent_hover'])
-        self.next_button = ModernButton(SCREEN_WIDTH - 170, button_y, 120, 50, "Next", 
+        self.next_button = ModernButton(SCREEN_WIDTH - 150, button_y, 100, 40, "Next", 
                                        COLORS['accent'], COLORS['accent_hover'])
-        self.shuffle_button = ModernButton(SCREEN_WIDTH // 2 - 60, button_y, 120, 50, "Shuffle", 
+        self.shuffle_button = ModernButton(SCREEN_WIDTH // 2 - 50, button_y, 100, 40, "Shuffle", 
                                          COLORS['success'], COLORS['success_hover'])
+        
+        # Scoring buttons
+        self.correct_button = ModernButton(200, score_button_y, 110, 40, "Correct", 
+                                         COLORS['success'], COLORS['success_hover'])
+        self.incorrect_button = ModernButton(320, score_button_y, 110, 40, "Incorrect", 
+                                           (200, 50, 50), (220, 70, 70))
+        self.review_button = ModernButton(440, score_button_y, 150, 40, "Review Wrong", 
+                                        (150, 100, 200), (170, 120, 220))
+        self.back_to_all_button = ModernButton(600, score_button_y, 130, 40, "Back to All", 
+                                             COLORS['accent'], COLORS['accent_hover'])
         
         self.mouse_pos = (0, 0)
         self.mouse_pressed = False
@@ -456,9 +488,9 @@ class FlashcardApp:
             # Draw instruction text
             if self.current_card.flip_state == FlipState.IDLE:
                 if not self.current_card.showing_answer:
-                    instruction = "Click to reveal answer"
+                    instruction = "Click to reveal answer (Space)"
                 else:
-                    instruction = "Click to show question"
+                    instruction = "Click to show question (Space) | C=Correct | X=Incorrect"
                 
                 instruction_surface = font_tiny.render(instruction, True, 
                                                      COLORS['text_secondary'] if not self.current_card.showing_answer else (255, 255, 255, 150))
@@ -527,6 +559,59 @@ class FlashcardApp:
                                                           COLORS['gradient_start'], COLORS['gradient_end'], False)
                 self.screen.blit(gradient_bar, (bar_x, bar_y))
     
+    def draw_score_counters(self):
+        """Draw the score counters and mode indicator"""
+        # Score counters
+        correct_text = f"Correct: {self.correct_answers}"
+        incorrect_text = f"Incorrect: {self.incorrect_answers}"
+        
+        correct_surface = font_medium.render(correct_text, True, COLORS['success'])
+        incorrect_surface = font_medium.render(incorrect_text, True, (200, 50, 50))
+        
+        correct_rect = correct_surface.get_rect()
+        incorrect_rect = incorrect_surface.get_rect()
+        
+        correct_rect.x = 50
+        correct_rect.y = SCREEN_HEIGHT - 170
+        
+        incorrect_rect.x = 50
+        incorrect_rect.y = SCREEN_HEIGHT - 140
+        
+        self.screen.blit(correct_surface, correct_rect)
+        self.screen.blit(incorrect_surface, incorrect_rect)
+        
+        # Mode indicator
+        if self.review_mode:
+            mode_text = "REVIEW MODE: Wrong Answers"
+            mode_surface = font_large.render(mode_text, True, (255, 200, 100))
+            mode_rect = mode_surface.get_rect()
+            mode_rect.centerx = SCREEN_WIDTH // 2
+            mode_rect.y = SCREEN_HEIGHT - 190
+            self.screen.blit(mode_surface, mode_rect)
+        
+        # Total answered
+        total_answered = self.correct_answers + self.incorrect_answers
+        if total_answered > 0:
+            accuracy = (self.correct_answers / total_answered) * 100
+            accuracy_text = f"Accuracy: {accuracy:.1f}%"
+            accuracy_surface = font_small.render(accuracy_text, True, COLORS['text_secondary'])
+            accuracy_rect = accuracy_surface.get_rect()
+            accuracy_rect.x = 50
+            accuracy_rect.y = SCREEN_HEIGHT - 110
+            self.screen.blit(accuracy_surface, accuracy_rect)
+        
+        # Current card status
+        if self.current_card:
+            card_id = id(self.current_card)
+            if card_id in self.answered_cards:
+                status_text = "Already Answered"
+                status_color = (255, 200, 100)
+                status_surface = font_small.render(status_text, True, status_color)
+                status_rect = status_surface.get_rect()
+                status_rect.x = 50
+                status_rect.y = SCREEN_HEIGHT - 85
+                self.screen.blit(status_surface, status_rect)
+    
     def next_card(self):
         """Go to next card"""
         if self.current_index < len(self.flashcards) - 1:
@@ -551,6 +636,37 @@ class FlashcardApp:
         self.current_card.showing_answer = False
         self.current_card.flip_state = FlipState.IDLE
     
+    def mark_correct(self):
+        """Mark current answer as correct"""
+        if self.current_card and id(self.current_card) not in self.answered_cards:
+            self.correct_answers += 1
+            self.answered_cards.add(id(self.current_card))
+            self.next_card()
+    
+    def mark_incorrect(self):
+        """Mark current answer as incorrect and add to review list"""
+        if self.current_card and id(self.current_card) not in self.answered_cards:
+            self.incorrect_answers += 1
+            self.answered_cards.add(id(self.current_card))
+            if self.current_card not in self.incorrect_cards:
+                self.incorrect_cards.append(self.current_card)
+            self.next_card()
+    
+    def start_review_mode(self):
+        """Switch to reviewing incorrect answers"""
+        if self.incorrect_cards:
+            self.review_mode = True
+            self.flashcards = self.incorrect_cards.copy()
+            self.current_index = 0
+            self.current_card = self.flashcards[0] if self.flashcards else None
+    
+    def back_to_all_cards(self):
+        """Return to all cards from review mode"""
+        self.review_mode = False
+        self.flashcards = self.original_flashcards.copy()
+        self.current_index = 0
+        self.current_card = self.flashcards[0] if self.flashcards else None
+    
     def handle_click(self, pos):
         """Handle mouse clicks"""
         if self.card_rect.collidepoint(pos) and self.current_card:
@@ -564,6 +680,14 @@ class FlashcardApp:
                 self.prev_card()
         elif self.shuffle_button.rect.collidepoint(pos):
             self.shuffle_cards()
+        elif self.correct_button.rect.collidepoint(pos):
+            self.mark_correct()
+        elif self.incorrect_button.rect.collidepoint(pos):
+            self.mark_incorrect()
+        elif self.review_button.rect.collidepoint(pos):
+            self.start_review_mode()
+        elif self.back_to_all_button.rect.collidepoint(pos):
+            self.back_to_all_cards()
     
     def run(self):
         """Main game loop"""
@@ -592,6 +716,14 @@ class FlashcardApp:
                         self.prev_card()
                     elif event.key == pygame.K_s:
                         self.shuffle_cards()
+                    elif event.key == pygame.K_1 or event.key == pygame.K_c:
+                        self.mark_correct()
+                    elif event.key == pygame.K_2 or event.key == pygame.K_x:
+                        self.mark_incorrect()
+                    elif event.key == pygame.K_r:
+                        self.start_review_mode()
+                    elif event.key == pygame.K_b:
+                        self.back_to_all_cards()
             
             # Update
             self.mouse_pos = pygame.mouse.get_pos()
@@ -602,6 +734,14 @@ class FlashcardApp:
             self.next_button.update(self.mouse_pos, self.mouse_pressed)
             self.shuffle_button.update(self.mouse_pos, self.mouse_pressed)
             
+            # Only update scoring buttons if current card hasn't been answered
+            if self.current_card and id(self.current_card) not in self.answered_cards:
+                self.correct_button.update(self.mouse_pos, self.mouse_pressed)
+                self.incorrect_button.update(self.mouse_pos, self.mouse_pressed)
+            
+            self.review_button.update(self.mouse_pos, self.mouse_pressed)
+            self.back_to_all_button.update(self.mouse_pos, self.mouse_pressed)
+            
             # Update current card animation
             if self.current_card:
                 self.current_card.update_animation(dt)
@@ -610,11 +750,33 @@ class FlashcardApp:
             self.draw_background()
             self.draw_header()
             self.draw_card()
+            self.draw_score_counters()
             
-            # Draw buttons
+            # Draw navigation buttons
             self.prev_button.draw(self.screen)
             self.next_button.draw(self.screen)
             self.shuffle_button.draw(self.screen)
+            
+            # Draw scoring buttons (only if current card hasn't been answered)
+            if self.current_card and id(self.current_card) not in self.answered_cards:
+                self.correct_button.draw(self.screen)
+                self.incorrect_button.draw(self.screen)
+            else:
+                # Draw disabled versions
+                disabled_correct = ModernButton(self.correct_button.rect.x, self.correct_button.rect.y, 
+                                              self.correct_button.rect.width, self.correct_button.rect.height, 
+                                              "Correct", (100, 100, 100), (100, 100, 100), (150, 150, 150))
+                disabled_incorrect = ModernButton(self.incorrect_button.rect.x, self.incorrect_button.rect.y, 
+                                                 self.incorrect_button.rect.width, self.incorrect_button.rect.height, 
+                                                 "Incorrect", (100, 100, 100), (100, 100, 100), (150, 150, 150))
+                disabled_correct.draw(self.screen)
+                disabled_incorrect.draw(self.screen)
+            
+            # Draw mode buttons
+            if self.incorrect_cards:  # Only show review button if there are incorrect answers
+                self.review_button.draw(self.screen)
+            if self.review_mode:  # Only show back button in review mode
+                self.back_to_all_button.draw(self.screen)
             
             pygame.display.flip()
             self.clock.tick(FPS)
