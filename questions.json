@@ -2,78 +2,358 @@
   "questions": [
     {
       "id": 1,
+      "question": "What contains a software system besides its executable code?",
+      "answer": "A software system contains not only computer programs (executable code) but also associated documentation, such as:\n\n• Requirements specifications\n• Design models\n• User manuals"
+    },
+    {
+      "id": 2,
+      "question": "The definition of the software process.",
+      "answer": "The software process is defined as the structured set of activities whose goal is the development and/or evolution of software."
+    },
+    {
+      "id": 3,
+      "question": "Enumerate the generic activities in all software development processes.",
+      "answer": "The generic activities are:\n\n• **Software specification** -- Establishing what services and qualities are required from the system and the constraints\n• **Software development (design and implementation)** -- Converting the system specification into an executable system\n• **Software validation** -- Verifying that the system conforms to its specification and meets customer requirements\n• **Software evolution (maintenance)** -- Evolving the software as its requirements change"
+    },
+    {
+      "id": 4,
+      "question": "Define the software specification process.",
+      "answer": "The software specification process is the process of establishing what services and qualities are required from the system, and the constraints on the system's operation and development."
+    },
+    {
+      "id": 5,
       "question": "How can an extra-functional requirement be made verifiable? Give an example of a general extra-functional requirement and an example of a verifiable version for it.",
       "answer": "An extra-functional requirement can be made verifiable by expressing it using some measure that can be objectively tested.\n\n**General extra-functional requirement (goal):**\n\"The system should be easy to use by experienced medical staff.\"\n\n**Verifiable version:**\n\"Experienced medical staff shall be able to use all the system functions after a total of two hours training. After this training, the average number of errors made by users shall not exceed two per day.\""
     },
     {
-      "id": 2,
+      "id": 6,
       "question": "What is the meaning of the complete and consistent set of functional requirements?",
-      "answer": "• **Complete:** The set should include descriptions of all facilities required.\n\n• **Consistent:** There should be no conflicts or contradictions in the descriptions of the system facilities.\n\n**Note:** In practice, it is very difficult to produce a complete and consistent requirements document."
+      "answer": "• **Complete:** The set should include descriptions of all facilities required\n• **Consistent:** There should be no conflicts or contradictions in the descriptions of the system facilities\n\n**Note:** In practice, it is very difficult to produce a complete and consistent requirements document."
     },
     {
-      "id": 3,
+      "id": 7,
       "question": "Why is requirements prioritization necessary?",
       "answer": "Requirements prioritization is necessary to determine which requirements are the most important, considering:\n\n• Stakeholders' current and future needs\n• Development constraints (time, resources, technical capability)\n• Business objectives (market competition, immediate sales, critical problems)\n\nHigher priority requirements are implemented and delivered first."
     },
     {
-      "id": 4,
+      "id": 8,
       "question": "What information results from the requirements representation with use cases and their details?",
       "answer": "Use case representation provides:\n\n• A clear picture of how users interact with the system\n• A definition of system functions (functional requirements)\n• Preconditions and postconditions\n• Main and alternative event flows (scenarios)\n• The context of interactions with external actors\n\nThis representation helps drive system development and testing."
     },
     {
-      "id": 5,
+      "id": 9,
       "question": "Why is requirements validation needed and which are the main techniques to realize it?",
       "answer": "To ensure the requirements define the system that the customer really wants. Requirements errors are expensive to fix later—up to 100 times more than fixing implementation errors.\n\n**Main techniques:**\n\n• **Requirements reviews:** Manual analysis, involving both client and contractor\n• **Prototyping:** Executable model of the system to check requirements\n• **Test-case generation:** To check the testability of requirements\n\nThese techniques can be used together or separately."
     },
     {
-      "id": 6,
-      "question": "Describe the differences between project-based software engineering and product software engineering.",
+      "id": 10,
+      "question": "Based on these figures, describe the differences between project-based software engineering and product software engineering.",
       "answer": "**Project-based software engineering:**\n\n• Starts from requirements defined and owned by an external client\n• Software is implemented by a contractor to support the client's business processes\n• Requirements may change based on business needs; software must adapt\n• Focus is on long-lifetime, custom systems often supported for 10+ years\n\n**Product software engineering:**\n\n• Starts from a business opportunity identified by the developer or company\n• The same company designs, implements, and decides on features, schedule, and changes\n• Goal is to capture a broad market with useful features for many users\n• Focus is on rapid delivery to gain market advantage"
     },
     {
-      "id": 7,
+      "id": 11,
       "question": "Consider two approaches of offering a software product: 1) as a software service (running on the developer's servers) 2) as a software package entirely running on the user's computers. Identify one advantage and one disadvantage of the first approach compared with the second one, first from developer point of view and then from client point of view.",
       "answer": "**Approach 1:** Software as a service (runs on developer's servers)\n**Approach 2:** Software as a stand-alone package (runs on user's computer)\n\n**From Developer's Point of View:**\n• **Advantage:** Easier to update and maintain the software centrally\n• **Disadvantage:** Must handle server infrastructure, performance, and security\n\n**From Client's Point of View:**\n• **Advantage:** No installation required; can access the software anywhere with internet\n• **Disadvantage:** Depends on internet access and external servers; possible privacy concerns"
     },
     {
-      "id": 8,
+      "id": 12,
       "question": "What is a prototype and why is it important to develop product prototypes?",
       "answer": "A prototype is an initial version of a software system used to:\n\n• Demonstrate concepts\n• Try out design options\n\n**It is important because:**\n\n• It helps convince the team and funders that the product has market potential\n• It allows users to interact with a basic system and provide feedback\n• It helps identify fundamental software components and test technologies\n• It supports requirements elicitation and validation, and informs UI design\n• It reduces the risk of building the wrong product by validating ideas early"
     },
     {
-      "id": 9,
+      "id": 13,
+      "question": "Imagine you have your own software development company. Write a vision statement, using Moore's vision template, for a new software product that you intend to develop.",
+      "answer": "**FOR** freelance project managers\n**WHO** need a simple way to organize tasks and communicate with clients,\n**THE** TaskSync is a web-based project management tool\n**THAT** allows real-time task tracking, client communication, and deadline monitoring\n**UNLIKE** traditional complex tools like Jira or Asana,\n**OUR PRODUCT** provides a clean, intuitive interface focused on freelancers' workflows, with built-in invoicing and time tracking."
+    },
+    {
+      "id": 14,
       "question": "Why is it important to create Personas?",
       "answer": "Creating Personas is important because they help:\n\n• Developers empathize with potential users\n• Teams \"step into the user's shoes\" to better understand their needs and behaviors\n• Guide the design by avoiding assumptions based on the developer's own knowledge\n• Focus on features that are relevant and usable for real users\n• Ensure the product is not overly complex or misaligned with user expectations"
     },
     {
-      "id": 10,
-      "question": "Write acceptance criteria for the following User Story: \"As a trainer, I need to create a new course or event, so site visitors can see it.\"",
-      "answer": "**Given that** the trainer wants to create a new course or event, **when** he accesses the course creation form, **then** he is presented with fields for:\n\n• Course/event name and HTML description\n• Multiple trainer selection from a predefined list\n• Start and end dates\n• Venue name (HTML) and physical address\n• Contact name, phone, and email\n• Link to more information and registration link\n\n**Given that** the course is a certification, **when** the trainer selects the certification option, **then** the class name must be chosen from a dropdown list.\n\n**Given that** the course is not a certification, **when** the trainer indicates it's not a certification, **then** the class name should be entered as free text."
+      "id": 15,
+      "question": "Consider the following User Story and the details in the 'Note'. Based on the details given as 'Note', write its acceptance criteria.",
+      "answer": "**User Story:** As a trainer, I need to create a new course or event, so site visitors can see it.\n\n**Acceptance Criteria:**\n\n**Given that** the trainer wants to create a new course or event, **when** he accesses the course creation form, **then** he is presented with fields for course/event name, HTML description, multiple trainer selection from a predefined list, start and end dates, venue name (HTML), physical address, contact name, phone, email, link to more information, and registration link.\n\n**Given that** the course is a certification, **when** the trainer selects the certification option, **then** the class name must be chosen from a dropdown list.\n\n**Given that** the course is not a certification, **when** the trainer indicates it's not a certification, **then** the class name should be entered as free text.\n\n**Given that** the trainer has completed all required fields, **when** he saves the course/event, **then** the new course/event becomes visible to site visitors."
     },
     {
-      "id": 11,
+      "id": 16,
       "question": "Which are the sources of information for deriving the product features?",
       "answer": "Sources of information for deriving product features include:\n\n• Product vision\n• Scenarios\n• User stories\n• Highlighted user actions in narratives\n• Team discussions to suggest new or generalized features"
     },
     {
-      "id": 12,
-      "question": "What are the main elements identified and modeled during an object-oriented design process?",
-      "answer": "The main elements identified and modeled include:\n\n• Objects and object classes\n• Object attributes\n• Object operations (services)\n• Relationships between objects (e.g., associations, aggregations, generalizations)\n\n**Design models such as:**\n• Class diagrams (static)\n• Sequence diagrams (dynamic)\n• State machine models\n• Use-case models"
+      "id": 17,
+      "question": "Consider this simple feature description: 'Grade quiz'. Extend it with a possible example of qualifications and condition (verb-noun style). Then describe it with a user story (represented in standard format), where the user is 'teacher'. Finally, formulate the acceptance criteria.",
+      "answer": "**Extended Feature (verb-noun style):** Automatically grade multiple-choice quiz if all answers are submitted.\n\n**User Story:** As a teacher, I want the system to automatically grade multiple-choice quizzes after submission so that I can quickly provide feedback to students.\n\n**Acceptance Criteria:**\n• Given that a student has submitted a completed multiple-choice quiz,\n• When the quiz submission is received by the system,\n\n**Then the system should:**\n• Automatically calculate the score based on predefined answers\n• Store the score in the student's record\n• Display the result to the student\n• Notify the teacher of the graded submission"
     },
     {
-      "id": 13,
+      "id": 18,
+      "question": "In the following class diagram, which are the attributes of class Staff and which are the operations of class Student?",
+      "answer": "**Class Staff -- Attributes:**\n\nStaff inherits from Borrower, which in turn inherits from LibraryUser. Therefore, its full list of attributes includes:\n\n**From LibraryUser:**\n• name\n• address\n• phone\n• registrationNr\n\n**From Borrower:**\n• itemsOnLoan\n• maxItemsOnLoan\n\n**From Staff (specific attributes):**\n• department\n• depPhone\n\n**Class Student -- Operations:**\n\nStudent also inherits from Borrower and then from LibraryUser. Only the LibraryUser class in this diagram contains defined operations:\n• +registration()\n• +de_registration()"
+    },
+    {
+      "id": 19,
+      "question": "In the following class diagram, which are the attributes of class Assignment?",
+      "answer": "**Attributes of Assignment:**\n• -percent\n• Collection of Exercise objects (due to aggregation relationship)\n• Collection of Solution objects (due to aggregation relationship)\n\n**Note:** Assignment has aggregation relationships with both Exercise and Solution classes, meaning it contains collections of these objects in addition to its own direct attribute (-percent)."
+    },
+    {
+      "id": 20,
+      "question": "Map the type of UML diagram to what can be represented with it.",
+      "answer": "**UML Diagram Type: What It Represents**\n\n• **Activity Diagram:** The activities in a process or in data processing; used for modeling business logic\n• **Use Case Diagram:** Functions exposed by the system and their interaction with actors\n• **Sequence Diagram:** The order of interactions between actors and the system or between components\n• **Class Diagram:** Object classes, their attributes, operations, and relationships\n• **State Machine Diagram:** The behavior of a system in response to events; shows states and transitions\n• **Component Diagram:** The runtime structure of the system; how execution units (components) relate"
+    },
+    {
+      "id": 21,
       "question": "Why is GUI prototyping important?",
       "answer": "GUI prototyping is important because:\n\n• It allows users to gain direct experience with the interface early in development\n• Without this experience, it is difficult to assess usability\n• Helps refine design through user feedback\n\n**Supports a two-stage process:**\n• Early prototypes (e.g., sketches, whiteboard)\n• Later refined into more sophisticated automated prototypes"
     },
     {
-      "id": 14,
+      "id": 22,
       "question": "What is the importance of MDE (Model Driven Engineering)?",
       "answer": "MDE is important because:\n\n• It promotes development at higher levels of abstraction, focusing on models instead of code\n• Enables automatic code generation from models, reducing manual coding effort\n• Makes it easier to adapt systems to new platforms by re-generating code from models\n• Helps bridge the gap between analysis, design, and implementation"
     },
     {
-      "id": 15,
+      "id": 23,
+      "question": "Shortly describe the types of models in MDA (Model Driven Architecture). Specify their relationships.",
+      "answer": "**Model Type: Description**\n\n• **CIM (Computation Independent Model):** Models the domain abstractions, independent of computation. Sometimes called the domain model\n• **PIM (Platform Independent Model):** Describes the system behavior and structure without platform-specific details\n• **PSM (Platform Specific Model):** A transformation of the PIM to include platform-specific implementation details\n\n**Relationships:**\nCIM → refined into → PIM → transformed into → one or more PSMs"
+    },
+    {
+      "id": 24,
+      "question": "Realize the correct mapping between the quality attribute and the solution for improving that quality.",
+      "answer": "**Quality Attribute: Architectural Solution**\n\n• **Security:** Use a layered architecture with critical assets in inner layers; isolate components so compromising one doesn't compromise all\n• **Safety:** Isolate safety-critical features in a small number of subsystems\n• **Availability:** Include redundant components and fault-tolerant mechanisms\n• **Performance:** Localize performance-critical operations, minimize inter-component communication, use large-grain components\n• **Maintainability:** Use fine-grain, replaceable components for easier updates and lower change cost"
+    },
+    {
+      "id": 25,
+      "question": "What is an architectural conflict, and which is the method to overcome it?",
+      "answer": "An architectural conflict occurs when two quality attributes are in tension, meaning that improving one negatively impacts the other.\n\n**Examples:**\n• Improving performance with large-grain components may reduce maintainability\n• Adding redundant data for availability may reduce security\n• Isolating safety-related features increases communication, which can degrade performance\n\n**Method to overcome it:**\nArchitectural design requires a **trade-off process** to realize the best balance between competing quality attributes, based on the system's goals and stakeholder priorities."
+    },
+    {
+      "id": 26,
       "question": "Which are the main architectural perspectives and what shows each of them?",
-      "answer": "**Static perspective:** The implementation units (modules), their interfaces, and interrelations.\n\n**Dynamic perspective:** The runtime structure: execution units (components) and connectors.\n\n**Deployment perspective:** How implementation units are deployed on infrastructure (hardware, platforms)."
+      "answer": "**Perspective: What It Shows**\n\n• **Static perspective:** The implementation units (modules), their interfaces, and interrelations\n• **Dynamic perspective:** The runtime structure: execution units (components) and connectors\n• **Deployment perspective:** How implementation units are deployed on infrastructure (hardware, platforms)"
+    },
+    {
+      "id": 27,
+      "question": "Realize the mapping between the architectural style and how is organized the system that conforms to the style.",
+      "answer": "**Architectural Style: System Organization**\n\n• **Layered (Abstract Machine):** System organized in layers, where each layer offers services to the layer above\n• **Pipe-and-Filter:** System organized as a chain of filters (data processors) connected by pipes (data flow)\n• **Repository:** Independent components interact through a shared data repository\n• **Client-Server:** Clients request services from centralized servers via a network\n• **Event-Based:** Components generate and/or react to events. Used in GUIs and distributed systems"
+    },
+    {
+      "id": 28,
+      "question": "What is the meaning of cross-cutting concerns in layered architectures?",
+      "answer": "Cross-cutting concerns are system-wide issues that affect multiple layers of the system and are not isolated to a specific functional concern.\n\n**Examples include:**\n• Security\n• Logging\n• Error handling\n\nThey lead to interactions across layers that are different from typical functional interactions and can complicate the design.\n\nImproving a cross-cutting concern (like security) often requires modifying multiple layers, which is difficult to do after the system has been designed."
+    },
+    {
+      "id": 29,
+      "question": "Suppose a mobile platform is selected for delivering a software application. Specify the main problems specific to this type of platform and their solutions.",
+      "answer": "**Problem: Solution**\n\n• **Intermittent connectivity:** Provide a limited offline mode for operation without network access\n• **Limited processor power:** Minimize computationally-intensive operations on the mobile device\n• **Battery/power limitations:** Optimize for low power consumption\n• **Touchscreen input (keyboard):** Minimize the need for text input; use simplified or guided inputs\n\n**Good practice:** Separate browser-based and mobile versions of the front-end, possibly using different architectures to meet performance and usability needs."
+    },
+    {
+      "id": 30,
+      "question": "Explain why specifying the interfaces of different components of a software system allows these components to be designed and developed in parallel.",
+      "answer": "Specifying interfaces defines the services provided by each component (their signatures and semantics). Once the interfaces are defined:\n\n• Developers can independently implement components as long as they conform to the interface\n• This allows for parallel development because there is no need to wait for the internal implementation of other components\n• Changes in the internal logic of a component do not impact others, as long as the interface remains stable"
+    },
+    {
+      "id": 31,
+      "question": "Which are the main elements identified and modeled during an object-oriented design process?",
+      "answer": "The main elements identified and modeled include:\n\n• Objects and object classes\n• Object attributes\n• Object operations (services)\n• Relationships between objects (e.g., associations, aggregations, generalizations)\n\n**Design models such as:**\n• Class diagrams (static)\n• Sequence diagrams (dynamic)\n• State machine models\n• Use-case models"
+    },
+    {
+      "id": 32,
+      "question": "Consider an application to be developed using an OO application framework. Generally (without reference to a specific framework) what will be reused (from framework) in the application logic/business functionality and what the application developers need to add?",
+      "answer": "**Reused from the framework:**\n• Abstract and concrete classes provided by the framework\n• Default behaviors and structure (skeleton architecture)\n• Generic components for common services such as GUI handling, event loops, and data management\n• Callback mechanisms (inversion of control) to handle events\n\n**Developers need to add:**\n• Concrete classes that inherit from abstract ones and implement required methods\n• Methods to respond to specific application events\n• Application-specific components placed in pre-defined framework locations to extend functionality"
+    },
+    {
+      "id": 33,
+      "question": "One benefit of reusing COTS systems is avoiding some development risks by using existing software. What risks are nevertheless introduced by the problems implied by this approach?",
+      "answer": "Risks introduced by COTS reuse include:\n\n• Lack of control over functionality and performance\n• Difficult interoperability between different COTS systems\n• No control over system evolution (dependent on vendor)\n• Vendor lock-in and limited long-term support\n• Mismatch between the system's requirements and COTS assumptions\n• Complex selection and evaluation process due to poor documentation or limited domain knowledge"
+    },
+    {
+      "id": 34,
+      "question": "Enumerate the categories of comments in the order of their importance, starting with the most important ones.",
+      "answer": "Categories of comments, in order of importance:\n\n1. **Description of the code intent** -- Most valuable; explains what the code is meant to do. If the code does not fulfill its intent, then the code is wrong\n2. **External references** -- Link code to external documentation, resources, or system prerequisites\n3. **Summary of the code** -- Useful for understanding complex code, but must be kept in sync with the implementation\n4. **Marker comments** -- Indicate incomplete elements, improvements, or TODOs; should follow a consistent notation and be cleaned up\n5. **Explanation of the code** -- Used when the code is too complex, but ideally the code should be rewritten to improve clarity\n6. **Repeat code** -- Least useful and should generally be avoided"
+    },
+    {
+      "id": 35,
+      "question": "What must application code include to reduce the effects of failures generated by the possible incorrect function of an external service called by the application?",
+      "answer": "Application code must include:\n\n• Timeout mechanisms to detect non-responsive services\n• Assertions to verify the correctness of the returned data\n• Error handling routines for different types of failure codes\n• Result validation to ensure the response is consistent and complete\n• Meaningful error translation for debugging and user feedback"
+    },
+    {
+      "id": 36,
+      "question": "Select the activities included in code debugging.",
+      "answer": "**Given activities:**\n• establishing the existence of errors\n• error correction\n• localization of the error\n• creation of acceptance tests\n• verification\n• code refactoring\n\n**Correct activities included in debugging:**\n• error correction\n• localization of the error\n• verification"
+    },
+    {
+      "id": 37,
+      "question": "When is considered to be successful a validation test and when a verification test?",
+      "answer": "• A **validation test** is considered successful when it shows that the system operates as intended and meets the customer's requirements in expected usage scenarios. → \"Are we building the right product?\"\n\n• A **verification test** (defect testing) is considered successful when it exposes a fault or defect—i.e., when the system fails under abnormal or obscure test cases. → \"Are we building the product right?\""
+    },
+    {
+      "id": 38,
+      "question": "What is the method to statically realize verifications and validations and what artifacts, obtained during software development process, are verified and validated in this way?",
+      "answer": "• The method is **software inspection** (a static V&V method)\n• It does not require program execution and can be used early in development\n\n**It can be applied to many artifacts:**\n• Requirements\n• Design models\n• Configuration data\n• Code\n• Test data"
+    },
+    {
+      "id": 39,
+      "question": "Which are the advantages offered by source code inspections compared with code testing?",
+      "answer": "• Multiple defects can be found in a single inspection\n• Incomplete systems can be inspected (unlike testing which needs runnable code)\n• Inspections can consider broad quality attributes (e.g., maintainability, portability, standard compliance)\n• No need to build test harnesses for partial systems\n• Early defect detection, reducing late-stage fixes"
+    },
+    {
+      "id": 40,
+      "question": "Why is automated testing useful?",
+      "answer": "Automated testing is useful because:\n\n• Tests are executable, allowing them to be repeated automatically after each code change\n• Reduces the effort and errors involved in manual testing\n• Helps detect regression bugs efficiently\n• Ensures consistency and scalability, especially when thousands of tests are needed"
+    },
+    {
+      "id": 41,
+      "question": "What is the role of equivalence partitions in unit testing?",
+      "answer": "Equivalence partitions group input values that are expected to be processed in the same way. Their role is to:\n\n• Minimize the number of test cases while maximizing coverage\n• Ensure each distinct class of inputs is tested\n• Include both valid and invalid partitions (to test normal and error behavior)\n• Improve the effectiveness of testing by focusing on meaningful input groups"
+    },
+    {
+      "id": 42,
+      "question": "Give examples of criteria for selecting unit tests that reveal defects in the system.",
+      "answer": "Criteria for selecting defect-revealing tests include:\n\n• Edge cases: inputs at the limits of valid ranges\n• Invalid inputs: to test system robustness\n• Null or zero values: for strings, lists, or numerics\n• Overflow/underflow scenarios: especially in numeric operations\n• Unusual sequences or repetitions: to test buffer handling and state transitions\n• Single-element inputs: \"one is different\" principle"
+    },
+    {
+      "id": 43,
+      "question": "Shortly describe the component parts of the automated unit test.",
+      "answer": "An automated unit test typically includes:\n\n1. **Setup (Arrange):**\n   • Initialize system with inputs and expected outputs\n   • Possibly define mock objects\n\n2. **Call (Act):**\n   • Call the unit being tested\n\n3. **Assertion (Assert):**\n   • Compare actual result with expected result\n   • Pass/fail is based on whether the assertion holds"
+    },
+    {
+      "id": 44,
+      "question": "Define the software regression.",
+      "answer": "Software regression is the unintended alteration or loss of previously correct functionality or quality due to a software change.\n\nIt occurs when changes made to a program break features that were previously working correctly."
+    },
+    {
+      "id": 45,
+      "question": "Why is regression testing important? Explain how automated testing simplifies regression testing.",
+      "answer": "**Importance:**\n• Ensures that changes or new features do not negatively affect existing functionality\n• Identifies bugs introduced into previously tested code\n\n**Automation helps by:**\n• Allowing all previous tests to be re-run automatically after each change\n• Making regression testing efficient, repeatable, and scalable\n• Ensuring confidence in every code commit (especially in continuous integration pipelines)"
+    },
+    {
+      "id": 46,
+      "question": "What do we need to consider when we design the software product, so that we can automatically and efficiently test its features?",
+      "answer": "• Design features so they are accessible through an API, not just via the GUI\n• Use automated unit and feature testing frameworks\n• Structure tests in a way that they are independent, reproducible, and focused\n• Decouple functional components from presentation layers to enable direct feature testing"
+    },
+    {
+      "id": 47,
+      "question": "What is the difference between load testing and stress testing?",
+      "answer": "**Load Testing:**\n• Tests the system under expected load conditions to assess behavior during normal usage levels\n• Goal: Ensure performance, response time, and resource usage are acceptable under typical conditions\n\n**Stress Testing:**\n• Pushes the system beyond its expected operational capacity, often until it fails\n• Goal: Evaluate system robustness, failure handling, and behavior under extreme conditions"
+    },
+    {
+      "id": 48,
+      "question": "Suppose it has been identified the risk that confidential data remain unencrypted. Analyze this risk to identify possible causes. Give examples of tests to check that this risk is avoided.",
+      "answer": "**Risk analysis -- Possible causes:**\n• Misconfiguration of encryption settings\n• Data stored or transmitted without applying encryption\n• External libraries used without secure options enabled\n• Incomplete implementation of encryption policies\n\n**Example tests to detect unencrypted data:**\n• Code inspection: Verify use of encryption libraries (e.g., TLS, AES)\n• Configuration testing: Check if encryption is enabled for storage and network\n• Penetration testing: Attempt to access data in transit or at rest without decryption\n• File content checks: Examine stored files for plain-text sensitive data"
+    },
+    {
+      "id": 49,
+      "question": "Realize the mapping between the software project management activity and what should be obtained from it.",
+      "answer": "**Management Activity: What Should Be Obtained**\n\n• **Project Planning:** Detailed schedule, resource allocation, risk assessment, and deliverable milestones\n• **Risk Management:** Risk register, mitigation strategies, and contingency plans\n• **People Management:** Team structure, role assignments, and performance evaluation criteria\n• **Reporting:** Progress reports, status dashboards, and stakeholder communication\n• **Proposal Writing:** Project scope, cost estimates, and contractual agreements"
+    },
+    {
+      "id": 50,
+      "question": "Explain why it is necessary to make simplifying assumptions when developing a project plan.",
+      "answer": "Simplifying assumptions are necessary because:\n\n• **Complexity reduction:** Real projects involve countless variables that would make planning impossible without simplification\n• **Practicality:** Perfect information is rarely available, so reasonable assumptions enable progress\n• **Time constraints:** Detailed analysis of every factor would delay project start indefinitely\n• **Communication:** Simplified models are easier to understand and communicate to stakeholders\n• **Iterative refinement:** Initial assumptions can be refined as more information becomes available during project execution"
+    },
+    {
+      "id": 51,
+      "question": "Which are the main advantages and disadvantages of using waterfall-based scheduling compared with agile?",
+      "answer": "**Waterfall-based scheduling:**\n\n**Advantages:**\n• Clear timeline and predictable milestones\n• Better for fixed-scope projects with well-defined requirements\n• Easier to coordinate with external dependencies\n• Good for regulatory or compliance-heavy projects\n\n**Disadvantages:**\n• Inflexible to requirement changes\n• Late feedback discovery\n• Risk of building the wrong product\n• Limited early value delivery to customers"
+    },
+    {
+      "id": 52,
+      "question": "Why is important to involve team members in the project planning activity?",
+      "answer": "Involving team members in project planning is important because:\n\n• **Accuracy:** Team members have detailed knowledge about implementation complexity and time requirements\n• **Buy-in:** People are more committed to plans they helped create\n• **Risk identification:** Different perspectives help identify potential issues early\n• **Skill assessment:** Better understanding of team capabilities and constraints\n• **Motivation:** Involvement increases engagement and ownership of project success"
+    },
+    {
+      "id": 53,
+      "question": "In the change management process, what is the role of cost and impact analysis of the software system change requests?",
+      "answer": "The cost and impact analysis plays a key role in deciding whether a change request should be approved. It includes:\n\n• Estimating the effort (time, resources) required to implement the change\n• Assessing potential side effects on existing components or system behavior\n• Evaluating the risk of regression, performance degradation, or user disruption\n• Supporting the decision-making process to prioritize or reject the request\n\nThis ensures that only feasible, beneficial, and justifiable changes are implemented."
+    },
+    {
+      "id": 54,
+      "question": "What categories of information must be kept, by the development team, for each release of a software system and what are these necessary for?",
+      "answer": "The development team must keep the following categories of information per release:\n\n• Source code version (linked to configuration baseline)\n• Executable files and their associated build scripts\n• Requirements and design documentation specific to that version\n• Test results and validation reports\n• Release notes (including known issues and changes)\n• Installation instructions or deployment scripts\n\n**These are necessary for:**\n• Reproducing the release if needed (e.g., for patching or debugging)\n• Auditing the release process\n• Supporting maintenance and troubleshooting\n• Ensuring traceability between requirements and implementation"
+    },
+    {
+      "id": 55,
+      "question": "Which of the generic software process models may be agile processes?",
+      "answer": "The following generic software process models may be used as agile processes:\n\n**1. Incremental Development**\n• May be plan-driven or agile, depending on how increments are defined and delivered\n• Agile approach defines early increments, with subsequent increments evolving based on feedback and customer priorities\n\n**2. Reuse-oriented Development**\n• May also be agile if the integration of reusable components is done incrementally with flexibility and adaptability to change"
+    },
+    {
+      "id": 56,
+      "question": "Realize the correct mapping between the activity diagram and what is represented on it.",
+      "answer": "An activity diagram models the dynamic behavior of a system, specifically the workflow or sequence of activities.\n\n**What is represented on an activity diagram:**\n• **Activities (rounded rectangles):** actions or tasks performed\n• **Transitions (arrows):** control flow between activities\n• **Start and end nodes:** represent initiation and completion\n• **Decision nodes:** show branching logic based on conditions\n• **Swimlanes:** (optional) indicate responsibility across different actors or system components\n\nThis diagram is useful for modeling processes such as business workflows, use case realizations, and procedural logic."
+    },
+    {
+      "id": 57,
+      "question": "Explain why incremental delivery has as a consequence the fact that the highest priority system services tend to receive the most testing.",
+      "answer": "In incremental delivery, the system is developed and delivered in a series of increments, with the highest priority features implemented and released first.\n\n**Consequence:**\n• These high-priority features are used, reviewed, and tested earliest\n• With each new increment, they are regression tested to ensure continued functionality\n• As a result, they accumulate more test coverage and validation cycles over time\n\nThis natural emphasis on early and repeated testing makes critical services more robust and reliable."
+    },
+    {
+      "id": 58,
+      "question": "Check the correct answers: Agile methods in software development imply:",
+      "answer": "**Given options:**\n• Incremental delivery\n• Periodic activities to eliminate complexity from the system\n• Customer involvement during the software process\n• Modeling the whole software before writing the code\n• Establishing normative processes for team working\n• Planning in advance all software process activities\n\n**Correct answers:**\n• Incremental delivery\n• Periodic activities to eliminate complexity from the system\n• Customer involvement during the software process"
+    },
+    {
+      "id": 59,
+      "question": "Explain why agile methods in software engineering ensure rapid development and delivery of software products. (Base your argumentation on the agile methods principles and specifics).",
+      "answer": "Agile methods ensure rapid development and delivery through:\n\n• **Incremental and iterative delivery:** Products are delivered in small, functional parts, allowing for faster feedback and adaptation\n• **Customer collaboration:** Constant involvement ensures requirements are clarified early and adjusted quickly when needed\n• **Emphasis on working software:** Agile prioritizes delivering usable code over comprehensive documentation, reducing delays\n• **Responsive to change:** Agile embraces change, enabling teams to adapt and incorporate new ideas without restarting the project\n• **Continuous improvement:** Regular retrospectives and refinement activities improve process and product efficiency over time\n• **Simple design:** Focus on eliminating unnecessary complexity, which accelerates implementation"
+    },
+    {
+      "id": 60,
+      "question": "Explain the process of Test-driven Development (TDD).",
+      "answer": "TDD is a development process in which tests are written before the code that fulfills those tests.\n\n**The TDD cycle (often called Red–Green–Refactor):**\n1. Write a test for the new functionality (initially it fails – Red)\n2. Write the minimal code necessary to make the test pass (Green)\n3. Refactor the code to improve structure/quality without altering functionality\n4. Repeat for the next feature\n\n**Benefits:**\n• Forces developers to focus on requirements\n• Ensures early detection of defects\n• Builds a suite of regression tests during development"
+    },
+    {
+      "id": 61,
+      "question": "Define the refactoring activity. Why is refactoring important in agile context?",
+      "answer": "Refactoring is the process of improving the internal structure of existing code without changing its external behavior.\n\n**Importance in agile context:**\n• Agile involves frequent, incremental changes, which can degrade code quality over time\n• Refactoring helps keep the codebase clean, maintainable, and adaptable\n• Enables fast response to changing requirements while maintaining system stability\n• Encourages simplicity and design evolution, two core Agile principles\n\nRefactoring is often integrated into Agile workflows, especially during or after the TDD cycle."
+    },
+    {
+      "id": 62,
+      "question": "Describe the relation of 'sprint backlog' with 'product backlog'. Which is the criterion for ordering the items in the 'product backlog'?",
+      "answer": "**Relationship:**\n• The product backlog is a prioritized list of all desired product features, maintained by the product owner\n• The sprint backlog is a subset of the product backlog, selected during the sprint planning meeting\n• It contains the items (user stories or features) the team commits to implement during the current sprint\n\n**Criterion for ordering items in the product backlog:**\n• Items are ordered based on business value, urgency, customer needs, and technical dependencies\n• Highest-priority items (most valuable) are placed at the top"
+    },
+    {
+      "id": 63,
+      "question": "Why is it important that each sprint should normally produce a 'potentially shippable' product increment? When might the team relax this rule and produce something that is not 'ready to ship'?",
+      "answer": "**Importance of a \"potentially shippable\" product increment:**\n• Ensures continuous delivery of value to the customer\n• Helps build and maintain customer confidence\n• Supports early feedback, fast iteration, and integration testing\n• Reduces risk by having working software after every sprint\n\n**The rule may be relaxed:**\n• During early sprints where infrastructure or foundational code is being laid out\n• When teams are building internal tools or non-customer-facing components\n• For research spikes or technical investigations that are not intended for immediate release"
+    },
+    {
+      "id": 64,
+      "question": "Scrum has been designed for use by a team of 5-8 people working together to develop a software product. What problems might arise if you try to use Scrum for student team projects where a group work together to develop a program. What parts of Scrum could be used in this situation?",
+      "answer": "**Problems that might arise:**\n• Students may lack experience with self-organization\n• Short project durations and infrequent availability can limit daily Scrum efficiency\n• Difficulties with defining clear product owner and Scrum master roles\n• Students may focus more on individual work than team coordination\n\n**Scrum elements that could still be used:**\n• Sprint planning and review: define goals and reflect on achievements\n• Sprint backlog: helps structure work into manageable parts\n• Daily stand-ups (in adapted form): maintain progress visibility\n• Retrospectives: encourage reflection and process improvement"
+    },
+    {
+      "id": 65,
+      "question": "Select the correct statements.",
+      "answer": "**Given options:**\n• Essentialized methods are composed of essentialized practices\n• Essentialized methods are used to describe essentialized practices\n• Kernel elements are used to describe essentialized practices\n• Kernel elements describe essence language\n\n**Correct answers:**\n• Essentialized methods are composed of essentialized practices\n• Kernel elements are used to describe essentialized practices"
+    },
+    {
+      "id": 66,
+      "question": "Realize the correct correspondence between area of concern and its content.",
+      "answer": "**Areas of concern and their content:**\n\n• **Customer:** everything to do with the actual use and exploitation of the software system to be produced\n• **Solution:** everything related to the specification and development of the software system\n• **Endeavor:** everything related to the development team and the way that they approach their work"
+    },
+    {
+      "id": 67,
+      "question": "Map the competence level to its definition.",
+      "answer": "**Competence levels and definitions:**\n\n• **Assists:** Demonstrates a basic understanding of the concepts and can follow instructions\n• **Applies:** Able to apply the concepts in simple contexts by routinely applying the experience gained so far\n• **Masters:** Able to apply the concepts in most contexts and has the experience to work without supervision\n• **Adapts:** Able to apply judgment on when and how to apply the concepts to more complex contexts. Can enable others to apply the concepts\n• **Innovates:** A recognized expert, able to extend the concepts to new contexts and inspire others"
+    },
+    {
+      "id": 68,
+      "question": "Select the correct relation from the first to the second element of Essence language.",
+      "answer": "**Essence language element relations:**\n\n• **Activity Space - Activity:** organizes\n• **Alpha - Alpha State:** has\n• **Activity - Competency:** requires\n• **Activity - Work Product:** produces/updates\n• **Alpha State - Activity:** is progressed by"
+    },
+    {
+      "id": 69,
+      "question": "Map each alpha element to the concern area where it belongs.",
+      "answer": "**Alpha elements and their concern areas:**\n\n**Customer area:**\n• Stakeholders\n• Opportunity\n\n**Solution area:**\n• Requirements\n• Software System\n\n**Endeavor area:**\n• Work\n• Way of working\n• Team"
+    },
+    {
+      "id": 70,
+      "question": "Select the correct relation from the first alpha element to the second alpha element.",
+      "answer": "**Alpha element relations:**\n\n• **Requirements - Work:** scope and constrain\n• **Way of Working - Work:** guides\n• **Team - Software System:** produces\n• **Software System - Requirements:** fulfills\n• **Team - Way of working:** applies\n• **Stakeholders - Software System:** use and consume"
+    },
+    {
+      "id": 71,
+      "question": "Map the alpha element to its definition.",
+      "answer": "**Alpha elements and their definitions:**\n\n• **Opportunity:** The set of circumstances that make it appropriate to develop or change a software system\n• **Stakeholders:** The people, groups, or organizations who affect or are affected by a software system\n• **Requirements:** What the software system must do to address the opportunity and satisfy the stakeholders\n• **Software System:** A system made up of software, hardware and data that provides its primary value by the execution of the software\n• **Team:** A group of people actively engaged in the development, maintenance, delivery, or support of a specific software system\n• **Work:** Activity involving mental or physical effort done in order to achieve a result\n• **Way of working:** The tailored set of practices and tools used by a team to guide and support their work"
     }
   ]
-} 
+}
