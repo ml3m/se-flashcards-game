@@ -39,18 +39,18 @@ class FlipState(Enum):
 
 # Enhanced fonts
 try:
-    font_title = pygame.font.Font(None, 48)
-    font_large = pygame.font.Font(None, 36)
-    font_medium = pygame.font.Font(None, 28)
-    font_small = pygame.font.Font(None, 22)
-    font_tiny = pygame.font.Font(None, 18)
+    font_title = pygame.font.Font(None, 56)
+    font_large = pygame.font.Font(None, 44)
+    font_medium = pygame.font.Font(None, 36)
+    font_small = pygame.font.Font(None, 28)
+    font_tiny = pygame.font.Font(None, 22)
 except:
     # Fallback to default fonts
-    font_title = pygame.font.Font(None, 48)
-    font_large = pygame.font.Font(None, 36)
-    font_medium = pygame.font.Font(None, 28)
-    font_small = pygame.font.Font(None, 22)
-    font_tiny = pygame.font.Font(None, 18)
+    font_title = pygame.font.Font(None, 56)
+    font_large = pygame.font.Font(None, 44)
+    font_medium = pygame.font.Font(None, 36)
+    font_small = pygame.font.Font(None, 28)
+    font_tiny = pygame.font.Font(None, 22)
 
 class QuestionLoader:
     def __init__(self, json_file):
@@ -222,17 +222,20 @@ class FlashcardApp:
                 formatted_lines.append(("empty", ""))  # Empty line
                 continue
                 
+            # Clean up the paragraph by removing markdown bold syntax
+            clean_paragraph = paragraph.replace('**', '')
+            
             # Handle bullet points
-            if paragraph.strip().startswith('•'):
-                formatted_lines.append(('bullet', paragraph.strip()))
-            # Handle bold text
-            elif '**' in paragraph:
-                formatted_lines.append(('bold', paragraph.strip()))
+            if clean_paragraph.strip().startswith('•'):
+                formatted_lines.append(('bullet', clean_paragraph.strip()))
             # Handle quotes
-            elif paragraph.strip().startswith('"') and paragraph.strip().endswith('"'):
-                formatted_lines.append(('quote', paragraph.strip()))
+            elif clean_paragraph.strip().startswith('"') and clean_paragraph.strip().endswith('"'):
+                formatted_lines.append(('quote', clean_paragraph.strip()))
+            # Check if original had bold markers (before cleaning)
+            elif '**' in paragraph:
+                formatted_lines.append(('bold', clean_paragraph.strip()))
             else:
-                formatted_lines.append(('normal', paragraph.strip()))
+                formatted_lines.append(('normal', clean_paragraph.strip()))
         
         return formatted_lines
     
@@ -247,8 +250,6 @@ class FlashcardApp:
                 
             # Choose font based on type
             if line_type == 'bold':
-                # Remove markdown bold syntax
-                text = text.replace('**', '')
                 font = font_medium
             elif line_type == 'bullet':
                 font = base_font
