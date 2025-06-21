@@ -1,0 +1,1497 @@
+% !TEX program = pdflatex
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+
+% Handle graphics for different engines
+\makeatletter
+\@ifundefined{pdfoutput}{%
+  % DVI mode - convert PNG to EPS on the fly or use EPS versions
+  \DeclareGraphicsExtensions{.eps,.ps,.png,.jpg,.jpeg}
+}{%
+  % PDF mode
+  \DeclareGraphicsExtensions{.png,.jpg,.jpeg,.pdf,.eps,.ps}
+}
+\makeatother
+
+% Custom colors
+\definecolor{primaryblue}{RGB}{44, 62, 80}
+\definecolor{lightgray}{RGB}{236, 240, 241}
+\definecolor{darkgray}{RGB}{52, 73, 94}
+\definecolor{questioncolor}{RGB}{41, 128, 185}
+
+% Title formatting
+\titleformat{\section}{\normalfont\Large\bfseries\color{primaryblue}}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{darkgray}}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{questioncolor}}{\thesubsubsection.}{1em}{}
+
+% Custom list styling
+\setlist[itemize,1]{label=\textcolor{primaryblue}{$\bullet$}, leftmargin=1.2em}
+\setlist[itemize,2]{label=\textcolor{darkgray}{$\circ$}, leftmargin=1.5em}
+
+% Custom box for questions
+\newtcolorbox{questionbox}{
+    colback=white,
+    colframe=questioncolor,
+    boxrule=2pt,
+    arc=3pt,
+    left=8pt,
+    right=8pt,
+    top=8pt,
+    bottom=8pt,
+    fontupper=\bfseries
+}
+
+% Custom box for definitions
+\newtcolorbox{definitionbox}{
+    colback=lightgray,
+    colframe=primaryblue,
+    boxrule=1pt,
+    arc=3pt,
+    left=8pt,
+    right=8pt,
+    top=8pt,
+    bottom=8pt,
+    fontupper=\bfseries
+}
+
+\title{\textbf{\Large SE FORMS QUESTIONS}\\[0.5em]\large Software Engineering Question Bank}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Lecture 1}
+No forms
+
+\section{Lecture 2}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+What contains a software system besides its executable code?
+\end{questionbox}
+
+A software system contains not only computer programs (executable code) but also associated documentation, such as:
+\begin{itemize}
+    \item Requirements specifications
+    \item Design models
+    \item User manuals
+\end{itemize}
+(Source: Slide 3)
+
+\begin{questionbox}
+The definition of the software process.
+\end{questionbox}
+
+The software process is defined as the structured set of activities whose goal is the development and/or evolution of software.
+(Source: Slide 8)
+
+\begin{questionbox}
+Enumerate the generic activities in all software development processes.
+\end{questionbox}
+
+The generic activities are:
+\begin{itemize}
+    \item Software specification -- Establishing what services and qualities are required from the system and the constraints.
+    \item Software development (design and implementation) -- Converting the system specification into an executable system.
+    \item Software validation -- Verifying that the system conforms to its specification and meets customer requirements.
+    \item Software evolution (maintenance) -- Evolving the software as its requirements change.
+\end{itemize}
+(Source: Slide 8)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Define the software specification process.
+\end{questionbox}
+
+The software specification process is the process of establishing what services and qualities are required from the system, and the constraints on the system's operation and development.
+(Source: Slide 15)
+
+\begin{questionbox}
+How can an extra-functional requirement be made verifiable? Give an example of a general extra-functional requirement and an example of a verifiable version for it.
+\end{questionbox}
+
+An extra-functional requirement can be made verifiable by expressing it using some measure that can be objectively tested.
+
+\textbf{General extra-functional requirement (goal):}
+``The system should be easy to use by experienced medical staff.''
+
+\textbf{Verifiable version:}
+``Experienced medical staff shall be able to use all the system functions after a total of two hours training. After this training, the average number of errors made by users shall not exceed two per day.''
+
+(Source: Slide 22)
+
+\begin{questionbox}
+What is the meaning of the complete and consistent set of functional requirements?
+\end{questionbox}
+
+\begin{itemize}
+    \item \textbf{Complete:} The set should include descriptions of all facilities required.
+    \item \textbf{Consistent:} There should be no conflicts or contradictions in the descriptions of the system facilities.
+\end{itemize}
+
+Note: In practice, it is very difficult to produce a complete and consistent requirements document.
+(Source: Slide 25)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Why requirements prioritization is necessary?
+\end{questionbox}
+
+Requirements prioritization is necessary to determine which requirements are the most important, considering:
+\begin{itemize}
+    \item Stakeholders' current and future needs
+    \item Development constraints (time, resources, technical capability)
+    \item Business objectives (market competition, immediate sales, critical problems)
+\end{itemize}
+
+Higher priority requirements are implemented and delivered first.
+(Source: Slide 33)
+
+\begin{questionbox}
+What information results from the requirements representation with use cases and their details?
+\end{questionbox}
+
+Use case representation provides:
+\begin{itemize}
+    \item A clear picture of how users interact with the system
+    \item A definition of system functions (functional requirements)
+    \item Preconditions and postconditions
+    \item Main and alternative event flows (scenarios)
+    \item The context of interactions with external actors
+\end{itemize}
+
+This representation helps drive system development and testing.
+(Source: Slides 43, 45--47, 57--59)
+
+\begin{questionbox}
+Why requirements validation is needed and which are the main techniques to realize it?
+\end{questionbox}
+
+To ensure the requirements define the system that the customer really wants. Requirements errors are expensive to fix later—up to 100 times more than fixing implementation errors.
+
+\textbf{Main techniques:}
+\begin{itemize}
+    \item \textbf{Requirements reviews:} Manual analysis, involving both client and contractor
+    \item \textbf{Prototyping:} Executable model of the system to check requirements
+    \item \textbf{Test-case generation:} To check the testability of requirements
+\end{itemize}
+
+These techniques can be used together or separately.
+(Source: Slides 62--64)
+
+\newpage
+\section{Lecture 3}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Based on these figures, describe the differences between project-based software engineering and product software engineering.
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{3_1.png}
+\end{center}
+\end{questionbox}
+
+
+
+\textbf{Project-based software engineering:}
+\begin{itemize}
+    \item Starts from requirements defined and owned by an external client.
+    \item Software is implemented by a contractor to support the client's business processes.
+    \item Requirements may change based on business needs; software must adapt.
+    \item Focus is on long-lifetime, custom systems often supported for 10+ years.
+\end{itemize}
+
+\textbf{Product software engineering:}
+\begin{itemize}
+    \item Starts from a business opportunity identified by the developer or company.
+    \item The same company designs, implements, and decides on features, schedule, and changes.
+    \item Goal is to capture a broad market with useful features for many users.
+    \item Focus is on rapid delivery to gain market advantage.
+\end{itemize}
+
+(Source: Slide 7)
+
+\begin{questionbox}
+Consider two approaches of offering a software product: 1) as a software service (running on the developer's servers) 2) as a software package entirely running on the user's computers. Identify one advantage and one disadvantage of the first approach compared with the second one, first from developer point of view and then from client point of view.
+\end{questionbox}
+
+\textbf{Approach 1:} Software as a service (runs on developer's servers)\\
+\textbf{Approach 2:} Software as a stand-alone package (runs on user's computer)
+
+\textbf{From Developer's Point of View:}
+\begin{itemize}
+    \item \textbf{Advantage:} Easier to update and maintain the software centrally.
+    \item \textbf{Disadvantage:} Must handle server infrastructure, performance, and security.
+\end{itemize}
+
+\textbf{From Client's Point of View:}
+\begin{itemize}
+    \item \textbf{Advantage:} No installation required; can access the software anywhere with internet.
+    \item \textbf{Disadvantage:} Depends on internet access and external servers; possible privacy concerns.
+\end{itemize}
+
+(Source: Slide 8)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+What is a prototype and why is important to develop product prototypes?
+\end{questionbox}
+
+A prototype is an initial version of a software system used to:
+\begin{itemize}
+    \item Demonstrate concepts
+    \item Try out design options
+\end{itemize}
+
+It is important because:
+\begin{itemize}
+    \item It helps convince the team and funders that the product has market potential
+    \item It allows users to interact with a basic system and provide feedback
+    \item It helps identify fundamental software components and test technologies
+    \item It supports requirements elicitation and validation, and informs UI design
+    \item It reduces the risk of building the wrong product by validating ideas early
+\end{itemize}
+
+(Source: Slides 17--20)
+
+\begin{questionbox}
+Imagine you have your own software development company. Write a vision statement, using Moore's vision template, for a new software product that you intend to develop.
+\end{questionbox}
+
+FOR freelance project managers\\
+WHO need a simple way to organize tasks and communicate with clients,\\
+THE TaskSync is a web-based project management tool\\
+THAT allows real-time task tracking, client communication, and deadline monitoring\\
+UNLIKE traditional complex tools like Jira or Asana,\\
+OUR PRODUCT provides a clean, intuitive interface focused on freelancers' workflows, with built-in invoicing and time tracking.
+
+(Source: Slide 13)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Why is important to create Personas?
+\end{questionbox}
+
+Creating Personas is important because they help:
+\begin{itemize}
+    \item Developers empathize with potential users
+    \item Teams ``step into the user's shoes'' to better understand their needs and behaviors
+    \item Guide the design by avoiding assumptions based on the developer's own knowledge
+    \item Focus on features that are relevant and usable for real users
+    \item Ensure the product is not overly complex or misaligned with user expectations
+\end{itemize}
+
+(Source: Slides 28--30)
+
+\begin{questionbox}
+Consider the following User Story and the details in the ``Note''. Based on the details given as ``Note'', write its acceptance criteria.
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{story.png}
+\end{center}
+\end{questionbox}
+
+\textbf{User Story:} As a trainer, I need to create a new course or event, so site visitors can see it.
+
+\textbf{Acceptance Criteria (based on the Note):}
+
+\textbf{Given that} the trainer wants to create a new course or event, \textbf{when} he accesses the course creation form, \textbf{then} he is presented with fields for course/event name, HTML description, multiple trainer selection from a predefined list, start and end dates, venue name (HTML), physical address, contact name, phone, email, link to more information, and registration link.
+
+\textbf{Given that} the course is a certification, \textbf{when} the trainer selects the certification option, \textbf{then} the class name must be chosen from a dropdown list.
+
+\textbf{Given that} the course is not a certification, \textbf{when} the trainer indicates it's not a certification, \textbf{then} the class name should be entered as free text.
+
+\textbf{Given that} the trainer has completed all required fields, \textbf{when} he saves the course/event, \textbf{then} the new course/event becomes visible to site visitors.
+
+(Source: Slide 42)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Which are the sources of information for deriving the product features?
+\end{questionbox}
+
+Sources of information for deriving product features include:
+\begin{itemize}
+    \item Product vision
+    \item Scenarios
+    \item User stories
+    \item Highlighted user actions in narratives
+    \item Team discussions to suggest new or generalized features
+\end{itemize}
+
+(Source: Slides 51--53)
+
+\begin{questionbox}
+Consider this simple feature description: ``Grade quiz''. Extend it with a possible example of qualifications and condition (verb-noun style). Then describe it with a user story (represented in standard format), where the user is ``teacher''. Finally, formulate the acceptance criteria.
+\end{questionbox}
+
+\textbf{Extended Feature (verb-noun style):} Automatically grade multiple-choice quiz if all answers are submitted.
+
+\textbf{User Story:} As a teacher, I want the system to automatically grade multiple-choice quizzes after submission so that I can quickly provide feedback to students.
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Given that a student has submitted a completed multiple-choice quiz,
+    \item When the quiz submission is received by the system,
+\end{itemize}
+
+Then the system should:
+\begin{itemize}
+    \item Automatically calculate the score based on predefined answers
+    \item Store the score in the student's record
+    \item Display the result to the student
+    \item Notify the teacher of the graded submission
+\end{itemize}
+
+(Source: Slide 58)
+
+\newpage
+
+
+\section{Lecture 4}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+In the following class diagram, which are the attributes of class Staff and which are the operations of class Student?
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{class.png}
+\end{center}
+\end{questionbox}
+
+\textbf{Class Staff -- Attributes:}
+
+Staff inherits from Borrower, which in turn inherits from LibraryUser. Therefore, its full list of attributes includes:
+
+From LibraryUser:
+\begin{itemize}
+    \item name
+    \item address
+    \item phone
+    \item registrationNr
+\end{itemize}
+
+From Borrower:
+\begin{itemize}
+    \item itemsOnLoan
+    \item maxItemsOnLoan
+\end{itemize}
+
+From Staff (specific attributes):
+\begin{itemize}
+    \item department
+    \item depPhone
+\end{itemize}
+
+\textbf{Class Student -- Operations:}
+
+Student also inherits from Borrower and then from LibraryUser. Only the LibraryUser class in this diagram contains defined operations:
+\begin{itemize}
+    \item +registration()
+    \item +de\_registration()
+\end{itemize}
+
+\begin{questionbox}
+In the following class diagram, which are the attributes of class Assignment?
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{class2.png}
+\end{center}
+\end{questionbox}
+
+\textbf{Attributes of Assignment:}
+\begin{itemize}
+    \item -percent
+    \item Collection of Exercise objects (due to aggregation relationship)
+    \item Collection of Solution objects (due to aggregation relationship)
+\end{itemize}
+
+\textbf{Note:} Assignment has aggregation relationships with both Exercise and Solution classes, meaning it contains collections of these objects in addition to its own direct attribute (-percent).
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Map the type of UML diagram to what can be represented with it.
+\end{questionbox}
+
+\textbf{UML Diagram Type: What It Represents}
+\begin{itemize}
+    \item \textbf{Activity Diagram:} The activities in a process or in data processing; used for modeling business logic
+    \item \textbf{Use Case Diagram:} Functions exposed by the system and their interaction with actors
+    \item \textbf{Sequence Diagram:} The order of interactions between actors and the system or between components
+    \item \textbf{Class Diagram:} Object classes, their attributes, operations, and relationships
+    \item \textbf{State Machine Diagram:} The behavior of a system in response to events; shows states and transitions
+    \item \textbf{Component Diagram:} The runtime structure of the system; how execution units (components) relate
+\end{itemize}
+
+(Source: Slides 12, 13, 31--33, 49)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Why GUI prototyping is important?
+\end{questionbox}
+
+GUI prototyping is important because:
+\begin{itemize}
+    \item It allows users to gain direct experience with the interface early in development.
+    \item Without this experience, it is difficult to assess usability.
+    \item Helps refine design through user feedback.
+    \item Supports a two-stage process:
+    \begin{itemize}
+        \item Early prototypes (e.g., sketches, whiteboard)
+        \item Later refined into more sophisticated automated prototypes
+    \end{itemize}
+\end{itemize}
+
+(Source: Slides 66--69)
+
+\begin{questionbox}
+What is the importance of MDE (Model Driven Engineering)?
+\end{questionbox}
+
+MDE is important because:
+\begin{itemize}
+    \item It promotes development at higher levels of abstraction, focusing on models instead of code.
+    \item Enables automatic code generation from models, reducing manual coding effort.
+    \item Makes it easier to adapt systems to new platforms by re-generating code from models.
+    \item Helps bridge the gap between analysis, design, and implementation.
+\end{itemize}
+
+(Source: Slide 71--72)
+
+\begin{questionbox}
+Shortly describe the types of models in MDA (Model Driven Architecture). Specify their relationships.
+\end{questionbox}
+
+\textbf{Model Type: Description}
+\begin{itemize}
+    \item \textbf{CIM (Computation Independent Model):} Models the domain abstractions, independent of computation. Sometimes called the domain model.
+    \item \textbf{PIM (Platform Independent Model):} Describes the system behavior and structure without platform-specific details.
+    \item \textbf{PSM (Platform Specific Model):} A transformation of the PIM to include platform-specific implementation details.
+\end{itemize}
+
+\textbf{Relationships:}\\
+CIM → refined into → PIM → transformed into → one or more PSMs
+
+(Source: Slide 74)
+
+\newpage
+\section{Lecture 5}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Realize the correct mapping between the quality attribute and the solution for improving that quality.
+\end{questionbox}
+
+\textbf{Quality Attribute: Architectural Solution}
+\begin{itemize}
+    \item \textbf{Security:} Use a layered architecture with critical assets in inner layers; isolate components so compromising one doesn't compromise all.
+    \item \textbf{Safety:} Isolate safety-critical features in a small number of subsystems.
+    \item \textbf{Availability:} Include redundant components and fault-tolerant mechanisms.
+    \item \textbf{Performance:} Localize performance-critical operations, minimize inter-component communication, use large-grain components.
+    \item \textbf{Maintainability:} Use fine-grain, replaceable components for easier updates and lower change cost.
+\end{itemize}
+
+(Source: Slides 8--11)
+
+\begin{questionbox}
+What is an architectural conflict, and which is the method to overcome it?
+\end{questionbox}
+
+An architectural conflict occurs when two quality attributes are in tension, meaning that improving one negatively impacts the other.
+
+\textbf{Examples:}
+\begin{itemize}
+    \item Improving performance with large-grain components may reduce maintainability.
+    \item Adding redundant data for availability may reduce security.
+    \item Isolating safety-related features increases communication, which can degrade performance.
+\end{itemize}
+
+\textbf{Method to overcome it:}\\
+Architectural design requires a \textbf{trade-off process} to realize the best balance between competing quality attributes, based on the system's goals and stakeholder priorities.
+
+(Source: Slide 12)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Which are the main architectural perspectives and what shows each of them?
+\end{questionbox}
+
+\textbf{Perspective: What It Shows}
+\begin{itemize}
+    \item \textbf{Static perspective:} The implementation units (modules), their interfaces, and interrelations.
+    \item \textbf{Dynamic perspective:} The runtime structure: execution units (components) and connectors.
+    \item \textbf{Deployment perspective:} How implementation units are deployed on infrastructure (hardware, platforms).
+\end{itemize}
+
+(Source: Slide 31)
+
+\begin{questionbox}
+Realize the mapping between the architectural style and how is organized the system that conforms to the style.
+\end{questionbox}
+
+\textbf{Architectural Style: System Organization}
+\begin{itemize}
+    \item \textbf{Layered (Abstract Machine):} System organized in layers, where each layer offers services to the layer above.
+    \item \textbf{Pipe-and-Filter:} System organized as a chain of filters (data processors) connected by pipes (data flow).
+    \item \textbf{Repository:} Independent components interact through a shared data repository.
+    \item \textbf{Client-Server:} Clients request services from centralized servers via a network.
+    \item \textbf{Event-Based:} Components generate and/or react to events. Used in GUIs and distributed systems.
+\end{itemize}
+
+(Source: Slides 33--37)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+What is the meaning of cross-cutting concerns in layered architectures?
+\end{questionbox}
+
+Cross-cutting concerns are system-wide issues that affect multiple layers of the system and are not isolated to a specific functional concern.
+
+\textbf{Examples include:}
+\begin{itemize}
+    \item Security
+    \item Logging
+    \item Error handling
+\end{itemize}
+
+They lead to interactions across layers that are different from typical functional interactions and can complicate the design.
+
+Improving a cross-cutting concern (like security) often requires modifying multiple layers, which is difficult to do after the system has been designed.
+
+(Source: Slide 39)
+
+\begin{questionbox}
+Suppose a mobile platform is selected for delivering a software application. Specify the main problems specific to this type of platform and their solutions.
+\end{questionbox}
+
+\textbf{Problem: Solution}
+\begin{itemize}
+    \item \textbf{Intermittent connectivity:} Provide a limited offline mode for operation without network access.
+    \item \textbf{Limited processor power:} Minimize computationally-intensive operations on the mobile device.
+    \item \textbf{Battery/power limitations:} Optimize for low power consumption.
+    \item \textbf{Touchscreen input (keyboard):} Minimize the need for text input; use simplified or guided inputs.
+\end{itemize}
+
+\textbf{Good practice:} Separate browser-based and mobile versions of the front-end, possibly using different architectures to meet performance and usability needs.
+
+(Source: Slide 45)
+
+\newpage
+\section{Lecture 6}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Explain why specifying the interfaces of different components of a software system allows these components to be designed and developed in parallel.
+\end{questionbox}
+
+Specifying interfaces defines the services provided by each component (their signatures and semantics). Once the interfaces are defined:
+\begin{itemize}
+    \item Developers can independently implement components as long as they conform to the interface.
+    \item This allows for parallel development because there is no need to wait for the internal implementation of other components.
+    \item Changes in the internal logic of a component do not impact others, as long as the interface remains stable.
+\end{itemize}
+
+(Source: Slide 29)
+
+\begin{questionbox}
+Which are the main elements identified and modeled during an object-oriented design process?
+\end{questionbox}
+
+The main elements identified and modeled include:
+\begin{itemize}
+    \item Objects and object classes
+    \item Object attributes
+    \item Object operations (services)
+    \item Relationships between objects (e.g., associations, aggregations, generalizations)
+    \item Design models such as:
+    \begin{itemize}
+        \item Class diagrams (static)
+        \item Sequence diagrams (dynamic)
+        \item State machine models
+        \item Use-case models
+    \end{itemize}
+\end{itemize}
+
+(Source: Slides 21--22, 28)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Consider an application to be developed using an OO application framework. Generally (without reference to a specific framework) what will be reused (from framework) in the application logic/business functionality and what the application developers need to add?
+\end{questionbox}
+
+\textbf{Reused from the framework:}
+\begin{itemize}
+    \item Abstract and concrete classes provided by the framework
+    \item Default behaviors and structure (skeleton architecture)
+    \item Generic components for common services such as GUI handling, event loops, and data management
+    \item Callback mechanisms (inversion of control) to handle events
+\end{itemize}
+
+\textbf{Developers need to add:}
+\begin{itemize}
+    \item Concrete classes that inherit from abstract ones and implement required methods
+    \item Methods to respond to specific application events
+    \item Application-specific components placed in pre-defined framework locations to extend functionality
+\end{itemize}
+
+(Source: Slides 55--57, 65--66)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+One benefit of reusing COTS systems is avoiding some development risks by using existing software. What risks are nevertheless introduced by the problems implied by this approach?
+\end{questionbox}
+
+Risks introduced by COTS reuse include:
+\begin{itemize}
+    \item Lack of control over functionality and performance
+    \item Difficult interoperability between different COTS systems
+    \item No control over system evolution (dependent on vendor)
+    \item Vendor lock-in and limited long-term support
+    \item Mismatch between the system's requirements and COTS assumptions
+    \item Complex selection and evaluation process due to poor documentation or limited domain knowledge
+\end{itemize}
+
+(Source: Slides 83, 91)
+\newpage
+\section{Lecture 7}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Enumerate the categories of comments in the order of their importance, starting with the most important ones.
+\end{questionbox}
+
+Categories of comments, in order of importance:
+\begin{enumerate}
+    \item \textbf{Description of the code intent} -- Most valuable; explains what the code is meant to do. If the code does not fulfill its intent, then the code is wrong.
+    \item \textbf{External references} -- Link code to external documentation, resources, or system prerequisites.
+    \item \textbf{Summary of the code} -- Useful for understanding complex code, but must be kept in sync with the implementation.
+    \item \textbf{Marker comments} -- Indicate incomplete elements, improvements, or TODOs; should follow a consistent notation and be cleaned up.
+    \item \textbf{Explanation of the code} -- Used when the code is too complex, but ideally the code should be rewritten to improve clarity.
+    \item \textbf{Repeat code} -- Least useful and should generally be avoided.
+\end{enumerate}
+
+(Source: Slides 12--13)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Select the methods to avoid introducing programming faults.
+\end{questionbox}
+
+Methods to avoid faults include:
+
+\textbf{Fault avoidance techniques:}
+\begin{itemize}
+    \item Reduce program complexity
+    \item Use design patterns
+    \item Apply refactoring
+\end{itemize}
+
+\textbf{Input validation:}
+\begin{itemize}
+    \item Define expected formats and enforce them
+    \item Use regular expressions and type coercion
+    \item Reject invalid or suspicious input
+\end{itemize}
+
+\textbf{Failure management:}
+\begin{itemize}
+    \item Plan for failure and gracefully handle exceptions
+\end{itemize}
+
+(Source: Slides 17--19, 35--38, 42)
+
+\begin{questionbox}
+What is the meaning of secure failure and how is it realized?
+\end{questionbox}
+
+Secure failure means that in the event of an error or failure, the software behaves in a way that:
+\begin{itemize}
+    \item Protects user data
+    \item Prevents security leaks
+    \item Avoids crashes or system hangs
+\end{itemize}
+
+\textbf{It is realized by:}
+\begin{itemize}
+    \item Using exception handlers to intercept failures
+    \item Cleaning up (e.g. closing files, releasing resources)
+    \item Saving or encrypting sensitive data
+    \item Ensuring that no confidential data is exposed
+\end{itemize}
+
+(Source: Slides 45--46)
+
+\begin{questionbox}
+What must application code include to reduce the effects of failures generated by the possible incorrect function of an external service called by the application?
+\end{questionbox}
+
+Application code must include:
+\begin{itemize}
+    \item Timeout mechanisms to detect non-responsive services
+    \item Assertions to verify the correctness of the returned data
+    \item Error handling routines for different types of failure codes
+    \item Result validation to ensure the response is consistent and complete
+    \item Meaningful error translation for debugging and user feedback
+\end{itemize}
+
+(Source: Slide 48--49)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Select the activities included in code debugging.
+\end{questionbox}
+
+\begin{itemize}
+    \item establishing the existence of errors
+    \item error correction
+    \item localization of the error
+    \item creation of acceptance tests
+    \item verification
+    \item code refactoring
+\end{itemize}
+
+\textbf{Correct activities:}
+\begin{itemize}
+    \item error correction
+    \item localization of the error
+    \item verification
+\end{itemize}
+
+\newpage
+\section{Lecture 8}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+When is considered to be successful a validation test and when a verification test?
+\end{questionbox}
+
+\begin{itemize}
+    \item A \textbf{validation test} is considered successful when it shows that the system operates as intended and meets the customer's requirements in expected usage scenarios. → ``Are we building the right product?''
+    \item A \textbf{verification test} (defect testing) is considered successful when it exposes a fault or defect—i.e., when the system fails under abnormal or obscure test cases. → ``Are we building the product right?''
+\end{itemize}
+
+(Source: Slide content on V\&V testing and objectives)
+
+\begin{questionbox}
+What is the method to statically realize verifications and validations and what artifacts, obtained during software development process, are verified and validated in this way?
+\end{questionbox}
+
+\begin{itemize}
+    \item The method is \textbf{software inspection} (a static V\&V method).
+    \item It does not require program execution and can be used early in development.
+\end{itemize}
+
+It can be applied to many artifacts:
+\begin{itemize}
+    \item Requirements
+    \item Design models
+    \item Configuration data
+    \item Code
+    \item Test data
+\end{itemize}
+
+(Source: Slide content on static V\&V, software inspections)
+
+\begin{questionbox}
+Which are the advantages offered by source code inspections compared with code testing?
+\end{questionbox}
+
+\begin{itemize}
+    \item Multiple defects can be found in a single inspection.
+    \item Incomplete systems can be inspected (unlike testing which needs runnable code).
+    \item Inspections can consider broad quality attributes (e.g., maintainability, portability, standard compliance).
+    \item No need to build test harnesses for partial systems.
+    \item Early defect detection, reducing late-stage fixes.
+\end{itemize}
+
+(Source: Slide content under ``Advantages of inspections'')
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Why automated testing is useful?
+\end{questionbox}
+
+Automated testing is useful because:
+\begin{itemize}
+    \item Tests are executable, allowing them to be repeated automatically after each code change.
+    \item Reduces the effort and errors involved in manual testing.
+    \item Helps detect regression bugs efficiently.
+    \item Ensures consistency and scalability, especially when thousands of tests are needed.
+\end{itemize}
+
+(Source: Slide on ``Automated unit testing'')
+
+\begin{questionbox}
+What is the role of equivalence partitions in unit testing?
+\end{questionbox}
+
+Equivalence partitions group input values that are expected to be processed in the same way. Their role is to:
+\begin{itemize}
+    \item Minimize the number of test cases while maximizing coverage.
+    \item Ensure each distinct class of inputs is tested.
+    \item Include both valid and invalid partitions (to test normal and error behavior).
+    \item Improve the effectiveness of testing by focusing on meaningful input groups.
+\end{itemize}
+
+(Source: Slides on Partition testing and Equivalence partitions)
+
+\begin{questionbox}
+Give examples of criteria for selecting unit tests that reveal defects in the system.
+\end{questionbox}
+
+Criteria for selecting defect-revealing tests include:
+\begin{itemize}
+    \item Edge cases: inputs at the limits of valid ranges.
+    \item Invalid inputs: to test system robustness.
+    \item Null or zero values: for strings, lists, or numerics.
+    \item Overflow/underflow scenarios: especially in numeric operations.
+    \item Unusual sequences or repetitions: to test buffer handling and state transitions.
+    \item Single-element inputs: ``one is different'' principle.
+\end{itemize}
+
+(Source: Unit testing guidelines, Slides 40--41)
+
+\begin{questionbox}
+Shortly describe the component parts of the automated unit test.
+\end{questionbox}
+
+An automated unit test typically includes:
+\begin{enumerate}
+    \item \textbf{Setup (Arrange):}
+    \begin{itemize}
+        \item Initialize system with inputs and expected outputs
+        \item Possibly define mock objects
+    \end{itemize}
+    
+    \item \textbf{Call (Act):}
+    \begin{itemize}
+        \item Call the unit being tested
+    \end{itemize}
+    
+    \item \textbf{Assertion (Assert):}
+    \begin{itemize}
+        \item Compare actual result with expected result
+        \item Pass/fail is based on whether the assertion holds
+    \end{itemize}
+\end{enumerate}
+
+(Source: Slide ``Automated unit test structure'')
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Define the software regression.
+\end{questionbox}
+
+Software regression is the unintended alteration or loss of previously correct functionality or quality due to a software change.
+
+It occurs when changes made to a program break features that were previously working correctly.
+
+(Source: Slide on Regression Testing)
+
+\begin{questionbox}
+Why regression testing is important? Explain how automated testing simplifies regression testing.
+\end{questionbox}
+
+\textbf{Importance:}
+\begin{itemize}
+    \item Ensures that changes or new features do not negatively affect existing functionality.
+    \item Identifies bugs introduced into previously tested code.
+\end{itemize}
+
+\textbf{Automation helps by:}
+\begin{itemize}
+    \item Allowing all previous tests to be re-run automatically after each change.
+    \item Making regression testing efficient, repeatable, and scalable.
+    \item Ensuring confidence in every code commit (especially in continuous integration pipelines).
+\end{itemize}
+
+(Source: Slide on Automated Regression Testing)
+
+\begin{questionbox}
+What do we need to consider when we design the software product, so that we can automatically and efficiently test its features?
+\end{questionbox}
+
+\begin{itemize}
+    \item Design features so they are accessible through an API, not just via the GUI.
+    \item Use automated unit and feature testing frameworks.
+    \item Structure tests in a way that they are independent, reproducible, and focused.
+    \item Decouple functional components from presentation layers to enable direct feature testing.
+\end{itemize}
+
+(Source: Slide on Automated Feature Testing)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+What is the difference between load testing and stress testing?
+\end{questionbox}
+
+\textbf{Load Testing:}
+\begin{itemize}
+    \item Tests the system under expected load conditions to assess behavior during normal usage levels.
+    \item Goal: Ensure performance, response time, and resource usage are acceptable under typical conditions.
+\end{itemize}
+
+\textbf{Stress Testing:}
+\begin{itemize}
+    \item Pushes the system beyond its expected operational capacity, often until it fails.
+    \item Goal: Evaluate system robustness, failure handling, and behavior under extreme conditions.
+\end{itemize}
+
+(Source: Slide on ``Performance testing types'')
+
+\begin{questionbox}
+Suppose it has been identified the risk that confidential data remain unencrypted. Analyze this risk to identify possible causes. Give examples of tests to check that this risk is avoided.
+\end{questionbox}
+
+\textbf{Risk analysis -- Possible causes:}
+\begin{itemize}
+    \item Misconfiguration of encryption settings
+    \item Data stored or transmitted without applying encryption
+    \item External libraries used without secure options enabled
+    \item Incomplete implementation of encryption policies
+\end{itemize}
+
+\textbf{Example tests to detect unencrypted data:}
+\begin{itemize}
+    \item Code inspection: Verify use of encryption libraries (e.g., TLS, AES)
+    \item Configuration testing: Check if encryption is enabled for storage and network
+    \item Penetration testing: Attempt to access data in transit or at rest without decryption
+    \item File content checks: Examine stored files for plain-text sensitive data
+\end{itemize}
+
+(Source: Slide on ``Security risks and tests'')
+
+\newpage
+\section{Lecture 9}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Select what version management, as activity of the software configuration management process, means.
+\end{questionbox}
+
+Version management means: Keeping track of the multiple versions of system components and ensuring that changes made to components by different developers do not interfere with each other.
+
+(Source: Slide content on version management)
+
+\begin{questionbox}
+Enumerate the artifacts, realized during the software development process, placed under configuration control.
+\end{questionbox}
+
+Artifacts placed under configuration control include:
+\begin{itemize}
+    \item Source code
+    \item Executable code
+    \item Requirements specifications
+    \item Design specifications
+    \item User interface scripts
+    \item Test cases (test scenarios, test scripts, test data)
+    \item Documentation (e.g., user guides)
+    \item Data (program-internal or external configuration/data files)
+\end{itemize}
+
+(Source: Slide content on configuration control artifacts)
+
+\begin{questionbox}
+Describe the operations ``view'', ``modify'' and ``return'' provided by a centralized version management system. Consider a project where 3 developers (John, Alice and Dan) collaborate and work in parallel. If at one moment John must read module X and Alice and Dan must modify it, describe a sequence of such operations executed by the 3 developers when using the centralized version control system.
+\end{questionbox}
+
+In a centralized version control system (CVCS):
+\begin{itemize}
+    \item \textbf{View:} A developer views (reads) the latest version of a module from the central repository without modifying it
+    \item \textbf{Modify:} A developer checks out (locks or copies) the module for editing. Only one developer can typically modify a module at a time to avoid conflicts
+    \item \textbf{Return:} The developer checks in the modified version back into the central repository
+\end{itemize}
+
+\textbf{Scenario steps:}
+\begin{enumerate}
+    \item John executes a view operation to read module X
+    \item Alice performs a modify (check-out) operation to lock and edit module X
+    \item While Alice is editing, Dan cannot modify module X due to the lock
+    \item Alice completes her changes and executes a return (check-in)
+    \item Now Dan can perform modify on the updated version
+    \item John can again view the final version if needed
+\end{enumerate}
+
+(Source: Slide content on centralized version control operations)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Realize a comparison between centralized version management systems and the distributed ones. (similarities and differences)
+\end{questionbox}
+
+\textbf{Centralized VCS vs Distributed VCS:}
+\begin{itemize}
+    \item \textbf{Repository Location:} Single central repository vs Each user has a local repository copy
+    \item \textbf{Working offline:} Not possible (must connect to central server) vs Possible (all operations can be done locally)
+    \item \textbf{Speed:} Slower (requires network access) vs Faster (most operations are local)
+    \item \textbf{Collaboration:} Simpler but may involve locking vs More flexible, allows branching and merging
+    \item \textbf{Backup:} Central repository is single point of failure vs Redundant backups in all users' local repos
+    \item \textbf{Complexity:} Generally simpler to understand and manage vs More complex with concepts like branching, merging, and distributed workflows
+    \item \textbf{Conflict resolution:} Conflicts prevented by locking mechanisms vs Conflicts resolved through merging
+\end{itemize}
+
+(Source: Slide content on VCS comparison)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+How can build times be optimized in order to offer effective support to continuous integration?
+\end{questionbox}
+
+To optimize build times for continuous integration (CI):
+\begin{itemize}
+    \item Automate builds using build tools (e.g., Make, Gradle, Maven)
+    \item Use incremental compilation to build only changed components
+    \item Parallelize build steps where possible (multi-core builds, distributed build servers)
+    \item Apply dependency caching to avoid downloading or rebuilding unchanged libraries
+    \item Avoid unnecessary file updates that trigger rebuilds
+    \item Minimize external dependencies and avoid heavy resources in CI builds
+\end{itemize}
+
+Goal: Ensure fast feedback cycles to developers via frequent integration and testing.
+
+(Source: Slide on CI and build optimization)
+
+\begin{questionbox}
+Describe the procedure of installing on the production servers a new version of a software system which has passed all validation tests.
+\end{questionbox}
+
+The procedure typically includes:
+\begin{enumerate}
+    \item Freeze development of the validated version (tag the build in version control)
+    \item Build the release package from the validated codebase
+    \item Perform final tests in a staging environment similar to production
+    \item Prepare installation scripts or containers for deployment
+    \item Backup the production environment
+    \item Deploy the new version to production:
+    \begin{itemize}
+        \item Either via rolling update, blue-green deployment, or canary release
+    \end{itemize}
+    \item Monitor logs and metrics to ensure correct behavior
+    \item If problems occur, roll back to the previous stable version
+\end{enumerate}
+
+(Source: Slide on "Deployment process and practices")
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+In the change management process, what is the role of cost and impact analysis of the software system change requests?
+\end{questionbox}
+
+The cost and impact analysis plays a key role in deciding whether a change request should be approved. It includes:
+\begin{itemize}
+    \item Estimating the effort (time, resources) required to implement the change
+    \item Assessing potential side effects on existing components or system behavior
+    \item Evaluating the risk of regression, performance degradation, or user disruption
+    \item Supporting the decision-making process to prioritize or reject the request
+\end{itemize}
+
+This ensures that only feasible, beneficial, and justifiable changes are implemented.
+
+(Source: Slide on "Change management and evaluation process")
+
+\begin{questionbox}
+What categories of information must be kept, by the development team, for each release of a software system and what are these necessary for?
+\end{questionbox}
+
+The development team must keep the following categories of information per release:
+\begin{itemize}
+    \item Source code version (linked to configuration baseline)
+    \item Executable files and their associated build scripts
+    \item Requirements and design documentation specific to that version
+    \item Test results and validation reports
+    \item Release notes (including known issues and changes)
+    \item Installation instructions or deployment scripts
+\end{itemize}
+
+These are necessary for:
+\begin{itemize}
+    \item Reproducing the release if needed (e.g., for patching or debugging)
+    \item Auditing the release process
+    \item Supporting maintenance and troubleshooting
+    \item Ensuring traceability between requirements and implementation
+\end{itemize}
+
+(Source: Slide on "Release documentation" and "Configuration control")
+
+\newpage
+\section{Lecture 10 and 11}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Which of the generic software process models may be agile processes?
+\end{questionbox}
+
+The following generic software process models may be used as agile processes:
+
+\textbf{1. Incremental Development}
+\begin{itemize}
+    \item May be plan-driven or agile, depending on how increments are defined and delivered
+    \item Agile approach defines early increments, with subsequent increments evolving based on feedback and customer priorities
+\end{itemize}
+
+\textbf{2. Reuse-oriented Development}
+\begin{itemize}
+    \item May also be agile if the integration of reusable components is done incrementally with flexibility and adaptability to change
+\end{itemize}
+
+(Source: Slides \& text sections: "Generic software process models", "Plan-driven and agile processes", "Incremental development", "Reuse-oriented development")
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Realize the correct mapping between the activity diagram and what is represented on it.
+\end{questionbox}
+
+An activity diagram models the dynamic behavior of a system, specifically the workflow or sequence of activities.
+
+What is represented on an activity diagram:
+\begin{itemize}
+    \item \textbf{Activities (rounded rectangles):} actions or tasks performed
+    \item \textbf{Transitions (arrows):} control flow between activities
+    \item \textbf{Start and end nodes:} represent initiation and completion
+    \item \textbf{Decision nodes:} show branching logic based on conditions
+    \item \textbf{Swimlanes:} (optional) indicate responsibility across different actors or system components
+\end{itemize}
+
+This diagram is useful for modeling processes such as business workflows, use case realizations, and procedural logic.
+
+(Source: Slide on UML Activity Diagrams)
+
+\begin{questionbox}
+Explain why incremental delivery has as a consequence the fact that the highest priority system services tend to receive the most testing.
+\end{questionbox}
+
+In incremental delivery, the system is developed and delivered in a series of increments, with the highest priority features implemented and released first.
+
+\textbf{Consequence:}
+\begin{itemize}
+    \item These high-priority features are used, reviewed, and tested earliest
+    \item With each new increment, they are regression tested to ensure continued functionality
+    \item As a result, they accumulate more test coverage and validation cycles over time
+\end{itemize}
+
+This natural emphasis on early and repeated testing makes critical services more robust and reliable.
+
+(Source: Slide on "Benefits of Incremental Delivery")
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Check the correct answers: Agile methods in software development imply:
+\end{questionbox}
+
+\begin{itemize}
+    \item[ ] Incremental delivery
+    \item[ ] Periodic activities to eliminate complexity from the system
+    \item[ ] Customer involvement during the software process
+    \item[ ] Modeling the whole software before writing the code
+    \item[ ] Establishing normative processes for team working
+    \item[ ] Planning in advance all software process activities
+\end{itemize}
+
+\textbf{Correct answers:}
+\begin{itemize}
+    \item Incremental delivery
+    \item Periodic activities to eliminate complexity from the system
+    \item Customer involvement during the software process
+\end{itemize}
+
+(Source: Slides on Agile Manifesto principles and practices)
+
+\begin{questionbox}
+Explain why agile methods in software engineering ensure rapid development and delivery of software products. (Base your argumentation on the agile methods principles and specifics).
+\end{questionbox}
+
+Agile methods ensure rapid development and delivery through:
+\begin{itemize}
+    \item \textbf{Incremental and iterative delivery:} Products are delivered in small, functional parts, allowing for faster feedback and adaptation
+    \item \textbf{Customer collaboration:} Constant involvement ensures requirements are clarified early and adjusted quickly when needed
+    \item \textbf{Emphasis on working software:} Agile prioritizes delivering usable code over comprehensive documentation, reducing delays
+    \item \textbf{Responsive to change:} Agile embraces change, enabling teams to adapt and incorporate new ideas without restarting the project
+    \item \textbf{Continuous improvement:} Regular retrospectives and refinement activities improve process and product efficiency over time
+    \item \textbf{Simple design:} Focus on eliminating unnecessary complexity, which accelerates implementation
+\end{itemize}
+
+(Source: Slides covering Agile Principles and Benefits)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Explain the process of Test-driven Development (TDD).
+\end{questionbox}
+
+TDD is a development process in which tests are written before the code that fulfills those tests.
+
+\textbf{The TDD cycle (often called Red–Green–Refactor):}
+\begin{enumerate}
+    \item Write a test for the new functionality (initially it fails – Red)
+    \item Write the minimal code necessary to make the test pass (Green)
+    \item Refactor the code to improve structure/quality without altering functionality
+    \item Repeat for the next feature
+\end{enumerate}
+
+\textbf{Benefits:}
+\begin{itemize}
+    \item Forces developers to focus on requirements
+    \item Ensures early detection of defects
+    \item Builds a suite of regression tests during development
+\end{itemize}
+
+(Source: Slides on Test-Driven Development)
+
+\begin{questionbox}
+Define the refactoring activity. Why refactoring is important in agile context?
+\end{questionbox}
+
+Refactoring is the process of improving the internal structure of existing code without changing its external behavior.
+
+\textbf{Importance in agile context:}
+\begin{itemize}
+    \item Agile involves frequent, incremental changes, which can degrade code quality over time
+    \item Refactoring helps keep the codebase clean, maintainable, and adaptable
+    \item Enables fast response to changing requirements while maintaining system stability
+    \item Encourages simplicity and design evolution, two core Agile principles
+\end{itemize}
+
+Refactoring is often integrated into Agile workflows, especially during or after the TDD cycle.
+
+(Source: Slides on Refactoring and Agile Engineering Practices)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Describe the relation of 'sprint backlog' with 'product backlog'. Which is the criterion for ordering the items in the 'product backlog'?
+\end{questionbox}
+
+\textbf{Relationship:}
+\begin{itemize}
+    \item The product backlog is a prioritized list of all desired product features, maintained by the product owner
+    \item The sprint backlog is a subset of the product backlog, selected during the sprint planning meeting
+    \item It contains the items (user stories or features) the team commits to implement during the current sprint
+\end{itemize}
+
+\textbf{Criterion for ordering items in the product backlog:}
+\begin{itemize}
+    \item Items are ordered based on business value, urgency, customer needs, and technical dependencies
+    \item Highest-priority items (most valuable) are placed at the top
+\end{itemize}
+
+(Source: Slides on Scrum elements – Product Backlog and Sprint Backlog)
+
+\begin{questionbox}
+Why is it important that each sprint should normally produce a 'potentially shippable' product increment? When might the team relax this rule and produce something that is not 'ready to ship'?
+\end{questionbox}
+
+\textbf{Importance of a "potentially shippable" product increment:}
+\begin{itemize}
+    \item Ensures continuous delivery of value to the customer
+    \item Helps build and maintain customer confidence
+    \item Supports early feedback, fast iteration, and integration testing
+    \item Reduces risk by having working software after every sprint
+\end{itemize}
+
+\textbf{The rule may be relaxed:}
+\begin{itemize}
+    \item During early sprints where infrastructure or foundational code is being laid out
+    \item When teams are building internal tools or non-customer-facing components
+    \item For research spikes or technical investigations that are not intended for immediate release
+\end{itemize}
+
+(Source: Slides on Scrum and Incremental Delivery)
+
+\begin{questionbox}
+Scrum has been designed for use by a team of 5-8 people working together to develop a software product. What problems might arise if you try to use Scrum for student team projects where a group work together to develop a program. What parts of Scrum could be used in this situation?
+\end{questionbox}
+
+\textbf{Problems that might arise:}
+\begin{itemize}
+    \item Students may lack experience with self-organization
+    \item Short project durations and infrequent availability can limit daily Scrum efficiency
+    \item Difficulties with defining clear product owner and Scrum master roles
+    \item Students may focus more on individual work than team coordination
+\end{itemize}
+
+\textbf{Scrum elements that could still be used:}
+\begin{itemize}
+    \item Sprint planning and review: define goals and reflect on achievements
+    \item Sprint backlog: helps structure work into manageable parts
+    \item Daily stand-ups (in adapted form): maintain progress visibility
+    \item Retrospectives: encourage reflection and process improvement
+\end{itemize}
+
+(Source: Slide on Adapting Scrum to Student Projects)
+
+\newpage
+\section{Lecture 12}
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Select the correct statements.
+\end{questionbox}
+
+\begin{itemize}
+    \item[ ] Essentialized methods are composed of essentialized practices
+    \item[ ] Essentialized methods are used to describe essentialized practices
+    \item[ ] Kernel elements are used to describe essentialized practices
+    \item[ ] Kernel elements describe essence language
+\end{itemize}
+
+\textbf{Correct answers:}
+\begin{itemize}
+    \item Essentialized methods are composed of essentialized practices
+    \item Kernel elements are used to describe essentialized practices
+\end{itemize}
+
+(Source: Slide content on Essence methodology)
+
+\begin{questionbox}
+Realize the correct correspondence between area of concern and its content.
+\end{questionbox}
+
+\textbf{Areas of concern and their content:}
+
+\begin{itemize}
+    \item \textbf{Customer:} everything to do with the actual use and exploitation of the software system to be produced
+    \item \textbf{Solution:} everything related to the specification and development of the software system
+    \item \textbf{Endeavor:} everything related to the development team and the way that they approach their work
+\end{itemize}
+
+(Source: Slide content on Essence areas of concern)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Map the competence level to its definition.
+\end{questionbox}
+
+\textbf{Competence levels and definitions:}
+
+\begin{itemize}
+    \item \textbf{Assists:} Demonstrates a basic understanding of the concepts and can follow instructions
+    \item \textbf{Applies:} Able to apply the concepts in simple contexts by routinely applying the experience gained so far
+    \item \textbf{Masters:} Able to apply the concepts in most contexts and has the experience to work without supervision
+    \item \textbf{Adapts:} Able to apply judgment on when and how to apply the concepts to more complex contexts. Can enable others to apply the concepts
+    \item \textbf{Innovates:} A recognized expert, able to extend the concepts to new contexts and inspire others
+\end{itemize}
+
+(Source: Slide content on competence levels)
+
+\begin{questionbox}
+Select the correct relation from the first to the second element of Essence language.
+\end{questionbox}
+
+\textbf{Essence language element relations:}
+
+\begin{itemize}
+    \item \textbf{Activity Space - Activity:} organizes
+    \item \textbf{Alpha - Alpha State:} has
+    \item \textbf{Activity - Competency:} requires
+    \item \textbf{Activity - Work Product:} produces/updates
+    \item \textbf{Alpha State - Activity:} is progressed by
+\end{itemize}
+
+(Source: Slide content on Essence language structure)
+
+\subsection{Formative Evaluation}
+
+\begin{questionbox}
+Map each alpha element to the concern area where it belongs.
+\end{questionbox}
+
+\textbf{Alpha elements and their concern areas:}
+
+\begin{itemize}
+    \item \textbf{Customer area:}
+    \begin{itemize}
+        \item Stakeholders
+        \item Opportunity
+    \end{itemize}
+    \item \textbf{Solution area:}
+    \begin{itemize}
+        \item Requirements
+        \item Software System
+    \end{itemize}
+    \item \textbf{Endeavor area:}
+    \begin{itemize}
+        \item Work
+        \item Way of working
+        \item Team
+    \end{itemize}
+\end{itemize}
+
+(Source: Slide content on Essence alpha elements)
+
+\begin{questionbox}
+Select the correct relation from the first alpha element to the second alpha element.
+\end{questionbox}
+
+\textbf{Alpha element relations:}
+
+\begin{itemize}
+    \item \textbf{Requirements - Work:} scope and constrain
+    \item \textbf{Way of Working - Work:} guides
+    \item \textbf{Team - Software System:} produces
+    \item \textbf{Software System - Requirements:} fulfills
+    \item \textbf{Team - Way of working:} applies
+    \item \textbf{Stakeholders - Software System:} use and consume
+\end{itemize}
+
+(Source: Slide content on Essence alpha relationships)
+
+\begin{questionbox}
+Map the alpha element to its definition.
+\end{questionbox}
+
+\textbf{Alpha elements and their definitions:}
+
+\begin{itemize}
+    \item \textbf{Opportunity:} The set of circumstances that make it appropriate to develop or change a software system
+    \item \textbf{Stakeholders:} The people, groups, or organizations who affect or are affected by a software system
+    \item \textbf{Requirements:} What the software system must do to address the opportunity and satisfy the stakeholders
+    \item \textbf{Software System:} A system made up of software, hardware and data that provides its primary value by the execution of the software
+    \item \textbf{Team:} A group of people actively engaged in the development, maintenance, delivery, or support of a specific software system
+    \item \textbf{Work:} Activity involving mental or physical effort done in order to achieve a result
+    \item \textbf{Way of working:} The tailored set of practices and tools used by a team to guide and support their work
+\end{itemize}
+
+(Source: Slide content on Essence alpha definitions)
+\end{document} 
